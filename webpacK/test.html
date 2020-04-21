@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body,
+        html {
+            /* background-color: red; */
+        }
+
+        .app {
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 10px 10px 10px rgba(0, 0, 0, .03);
+        }
+
+        .inner {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(90deg, #f5f7f8, #fff);
+            border-radius: 50%;
+            box-shadow: -10px -10px 10px #fff;
+            color: #6acbad;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+        <div class="inner">
+
+        </div>
+    </div>
+    <!-- <script>
+         function Text(name,age,all,app){   //构造函数和工厂函数
+             this.name = name
+             this.age = age
+             this.all = all
+             this.run = function(){
+             }
+             app('app')
+         }
+        //  var text1 = new Text('yby','22','yby22',(app)=>{
+        //     console.log(app)
+        //  })
+        //  var text3 = new Text('yby','22','yby22')
+         var text2 = Text('yby','22','yby22',(app)=>{
+            console.log(app)
+         })
+        //  console.log(text1.run()==text3.run())
+        //  console.log(text1)
+        //  console.log(text3)
+         
+    </script> -->
+    <!-- <div onclick="blue()">    // 批量创建css代码
+        按钮
+    </div>
+    <script>
+        function blue() {
+            console.log(document.all)
+            if(document.all){
+                console.log(1)
+            }
+            if (document.all) {
+                window.style = "body{";
+                document.createStyleSheet("javascript:style");
+            } else {
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = "body{ background-color:blue }";
+                document.getElementsByTagName('HEAD').item(0).appendChild(style);
+            }
+        }
+    </script> -->
+    <!-- <script>  //break,continue,return 三者的区别
+        for (let i = 0; i < 10; i++) {
+            console.log(i)
+            if (i == 3) {
+                break
+            }
+        }
+        //break 结束整个循环
+        //continue 结束这次循环，进行下一次循环
+        //return 用在函数里（只能用在函数里，其他时候不合法），结束当前函数进入下一个函数（可以返回值）
+    </script> -->
+    <!-- <script>
+        /*
+         *  filter 不改变原数组  
+         *  has 是map 数据类型的方法
+         *  foreach 返回undefined，改变当前数组
+         *  map 不改变原数组，返回符合规则的
+         *  find 不改变原数组 返回查到的第一个符合标准的值
+         *  findIndex 不改变原数组 返回查到的第一个符合标准的索引值          
+         * （indexOf（'a', 2）查第2个a，lastIndexOf（从后往前查），includes（return true or false））
+         */
+        // var arr = [1, 2, 3, 4, 5, undefined, null, 111, 111]
+        // var newArr = arr.filter(v => v)
+        // var newArr = arr.map(v => {
+        //     return v == 111   //[false, false, false, false, false, false, false, true, true]
+        // })
+        // var newArr = arr.has(v => v)
+        // var newArr = arr.foreach(v => v)
+        // var newArr = arr.find((v)=>{
+        //     return v == 111
+        // })
+        // var newArr = arr.findIndex((v) => {
+        //     return v == 111
+        // })
+        console.log(arr)
+        console.log(newArr)
+    </script> -->
+
+    <!-- <script>
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', () => {
+                console.log(1)
+            }, false);
+        } else {
+            alert("您的浏览器不支持DeviceOrientation");
+        }
+    </script> -->
+    <script>
+        //join(),数组变成字符串，默认‘逗号’隔开，填什么用什么隔开
+        let app = [1, 2, 3, 4, 5]
+        console.log(app.join('.'))
+    </script>
+</body>
+
+</html>

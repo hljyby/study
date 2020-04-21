@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="./jquery-1.11.1.min.js"></script>
+  </head>
+  <style type="text/css">
+    h1 {
+      text-align: center;
+      color: #000046;
+    }
+    .i {
+      display: inline-block;
+      vertical-align: middle;
+      width: 30px;
+      height: 30px;
+      margin: 5px 20px;
+      background: url(http://yi.sunlands.com/ent-portal-war/images/tc_icon.png) no-repeat;
+    }
+    .a {
+      background-position: 0 0;
+    }
+    .b {
+      background-position: 0 -40px;
+    }
+    .c {
+      background-position: 0 -80px;
+    }
+    .d {
+      background-position: 0 -120px;
+    }
+    .e {
+      background-position: 0 -160px;
+    }
+    b {
+      color: #007ac3;
+      padding-right: 10px;
+    }
+    i {
+      color: green;
+      font-weight: bold;
+    }
+    .box {
+      width: 460px;
+      height: 360px;
+      margin: auto;
+      padding: 20px;
+      border: 2px solid darkgray;
+      font-size: 18px;
+      border-radius: 10px;
+      border-left-width: 10px;
+      border-right-width: 10px;
+    }
+  </style>
+  <body>
+    <h1>电脑配置检测</h1>
+    <hr />
+    <div class="box">
+      <p> <i class="i a"></i> <b>您的操作系统是: </b> <i id="xitong"></i> </p>
+      <p> <i class="i b"></i> <b>您的网络链接状态是: </b> <i id="netline"></i> </p>
+      <p> <i class="i b"></i> <b>您当前浏览网速是:</b> <i id="wangsu"></i> </p>
+      <p> <i class="i c"></i> <b>您电脑的分辨率是:</b> <i id="fenbianlv"></i> </p>
+      <p> <i class="i d"></i> <b>您的浏览器是:</b> <i id="liulanqi"></i> </p>
+      <p> <i class="i e"></i> <b>您的flash的版本是:</b> <i id="flash_banben"></i> </p>
+    </div>
+  </body>
+  <script type="text/javascript">
+    $(function(){
+      if(typeof Obj == "undefined") {
+        var Obj = new Object();
+      }
+      if(typeof Obj.SWFObjectUtil == "undefined") {
+        Obj.SWFObjectUtil = new Object();
+      }
+      Obj.SWFObject = function(_1, id, w, h, _5, c, _7, _8, _9, _a) {
+        if(!document.getElementById) return;
+        this.params = new Object();
+        this.variables = new Object();
+        this.attributes = new Array();
+        if(_1) this.setAttribute("swf", _1);
+        if(id) this.setAttribute("id", id);
+        if(w) this.setAttribute("width", w);
+        if(h) this.setAttribute("height", h);
+        if(_5) this.setAttribute("version", new Obj.PlayerVersion(_5.toString().split(".")));
+        this.installedVer = Obj.SWFObjectUtil.getPlayerVersion();
+        if(!window.opera && document.all && this.installedVer.major > 7) {
+          Obj.SWFObject.doPrepUnload = true;
+        }
+        if(c) this.addParam("bgcolor", c);
+        var q = _7 ? _7 : "high";
+        this.addParam("quality", q);
+        this.setAttribute("useExpressInstall", false);
+        this.setAttribute("doExpressInstall", false);
+        var _c = (_8) ? _8 : window.location;
+        this.setAttribute("xiRedirectUrl", _c);
+        this.setAttribute("redirectUrl", "");
+        if(_9) this.setAttribute("redirectUrl", _9);
+      };
+      Obj.SWFObject.prototype = {
+        useExpressInstall: function(_d) {
+          this.xiSWFPath = !_d ? "expressinstall.swf" : _d;
+          this.setAttribute("useExpressInstall", true);
+        },
+        setAttribute: function(_e, _f) {
+          this.attributes[_e] = _f;
+        },
+        getAttribute: function(_10) {
+          return this.attributes[_10];
+        },
+        addParam: function(_11, _12) {
+          this.params[_11] = _12;
+        },
+        getParams: function() {
+          return this.params;
+        },
+        addVariable: function(_13, _14) {
+          this.variables[_13] = _14;
+        },
+        getVariable: function(_15) {
+          return this.variables[_15];
+        },
+        getVariables: function() {
+          return this.variables;
+        },
+        getVariablePairs: function() {
+          var _16 = new Array();
+          var key;
+          var _18 = this.getVariables();
+          for(key in _18) {
+            _16[_16.length] = key + "=" + _18[key];
+          }
+          return _16;
+        },
+        getSWFHTML: function() {
+          var _19 = "";
+          if(navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length) {
+            if(this.getAttribute("doExpressInstall")) {
+              this.addVariable("MMplayerType", "PlugIn");
+              this.setAttribute("swf", this.xiSWFPath);
+            }
+            _19 = "<embed type=\"application/x-shockwave-flash\" src=\"" + this.getAttribute("swf") + "\" width=\"" + this.getAttribute("width") + "\" height=\"" + this.getAttribute("height") + "\" style=\"" + this.getAttribute("style") + "\"";
+            _19 += " id=\"" + this.getAttribute("id") + "\" name=\"" + this.getAttribute("id") + "\" ";
+            var _1a = this.getParams();
+            for(var key in _1a) {
+              _19 += [key] + "=\"" + _1a[key] + "\" ";
+            }
+            var _1c = this.getVariablePairs().join("&");
+            if(_1c.length > 0) {
+              _19 += "flashvars=\"" + _1c + "\"";
+            }
+            _19 += "/>";
+          } else {
+            if(this.getAttribute("doExpressInstall")) {
+              this.addVariable("MMplayerType", "ActiveX");
+              this.setAttribute("swf", this.xiSWFPath);
+            }
+            _19 = "<object id=\"" + this.getAttribute("id") + "\" classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" width=\"" + this.getAttribute("width") + "\" height=\"" + this.getAttribute("height") + "\" style=\"" + this.getAttribute("style") + "\">";
+            _19 += "<param name=\"movie\" value=\"" + this.getAttribute("swf") + "\" />";
+            var _1d = this.getParams();
+            for(var key in _1d) {
+              _19 += "<param name=\"" + key + "\" value=\"" + _1d[key] + "\" />";
+            }
+            var _1f = this.getVariablePairs().join("&");
+            if(_1f.length > 0) {
+              _19 += "<param name=\"flashvars\" value=\"" + _1f + "\" />";
+            }
+            _19 += "</object>";
+          }
+          return _19;
+        },
+        write: function(_20) {
+          if(this.getAttribute("useExpressInstall")) {
+            var _21 = new Obj.PlayerVersion([6, 0, 65]);
+            if(this.installedVer.versionIsValid(_21) && !this.installedVer.versionIsValid(this.getAttribute("version"))) {
+              this.setAttribute("doExpressInstall", true);
+              this.addVariable("MMredirectURL", escape(this.getAttribute("xiRedirectUrl")));
+              document.title = document.title.slice(0, 47) + " - Flash Player Installation";
+              this.addVariable("MMdoctitle", document.title);
+            }
+          }
+          if( this.getAttribute("doExpressInstall") || this.installedVer.versionIsValid(this.getAttribute("version"))) {
+            var n = (typeof _20 == "string") ? document.getElementById(_20) : _20;
+            n.innerHTML = this.getSWFHTML();
+            return true;
+          } else {
+            if(this.getAttribute("redirectUrl") != "") {
+              document.location.replace(this.getAttribute("redirectUrl"));
+            }
+          }
+          return false;
+        }
+      };
+      Obj.PlayerVersion = function(_29) {
+        this.major = _29[0] != null ? parseInt(_29[0]) : 0;
+        this.minor = _29[1] != null ? parseInt(_29[1]) : 0;
+        this.rev = _29[2] != null ? parseInt(_29[2]) : 0;
+      };
+      Obj.SWFObjectUtil.getPlayerVersion = function() {
+        var _23 = new Obj.PlayerVersion([0, 0, 0]);
+        if(navigator.plugins && navigator.mimeTypes.length) {
+          var x = navigator.plugins["Shockwave Flash"];
+          if(x && x.description) {
+            _23 = new Obj.PlayerVersion(x.description.replace(/([a-zA-Z]|\s)+/, "").replace(/(\s+r|\s+b[0-9]+)/, ".").split("."));
+          }
+        } else {
+          if(navigator.userAgent && navigator.userAgent.indexOf("Windows CE") >= 0) {
+            var axo = 1;
+            var _26 = 3;
+            while(axo) {
+              try {
+                _26++;
+                axo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash." + _26);
+                _23 = new Obj.PlayerVersion([_26, 0, 0]);
+              } catch(e) {
+                axo = null;
+              }
+            }
+          } else {
+            try {
+              var axo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.7");
+            } catch(e) {
+              try {
+                var axo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.6");
+                _23 = new Obj.PlayerVersion([6, 0, 21]);
+                axo.AllowScriptAccess = "always";
+              } catch(e) {
+                if(_23.major == 6) {
+                  return _23;
+                }
+              }
+              try {
+                axo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
+              } catch(e) {}
+            }
+            if(axo != null) {
+              _23 = new Obj.PlayerVersion(axo.GetVariable("$version").split(" ")[1].split(","));
+            }
+          }
+        }
+        return _23;
+      };
+      //获取浏览器flash版本号
+      function getFlashVersion() {
+        var version = Obj.SWFObjectUtil.getPlayerVersion();
+        $("#flash_banben").html(version['major'] + "." + version['minor'] + "." + version['rev']);
+      };
+      //获取操作系统屏幕分辨率
+      function getScreenSize() {
+        return {
+          width: screen.width,
+          height: screen.height
+        };
+      }
+      $("#fenbianlv").html(getScreenSize().width + "*" + getScreenSize().height);
+      function getNetline() {
+        $('#netline').text("网络已链接");
+        window.ononline = function() {
+          $('#netline').text("网络已链接");
+        };
+        window.onoffline = function() {
+          $('#netline').text("网络已断开");
+        };
+      }
+      //获取浏览器版本
+      function getExplorerVersion() {
+        var Sys = {};
+        var ua = navigator.userAgent.toLowerCase();
+        var s;
+        var result = "";
+        (s = ua.match(/qqbrowser\/([\d.]+)/)) ? Sys.qqbrowser = s[1]:
+          (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] :
+          (s = ua.match(/(trident)\/([\d.]+)/)) ? Sys.ie = '11.0' :
+          (s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] :
+          (s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] :
+          (s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] :
+          (s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+        if(Sys.ie)
+          result = "IE " + Sys.ie;
+        else if(Sys.firefox)
+          result = "firefox " + Sys.firefox;
+        else if(Sys.chrome)
+          result = "chrome " + Sys.chrome;
+        else if(Sys.opera)
+          result = "opera " + Sys.opera;
+        else if(Sys.safari)
+          result = "safari" + Sys.safari;
+        else if(Sys.qqbrowser)
+          result = "QQBrowser" + Sys.qqbrowser;
+        else
+          result = "未知";
+        $("#liulanqi").html(result + "(内核)");
+      }
+      //获取操作系统版本
+      function getOsVersion() {
+        var opName = "";
+        var Name = "";
+        var ua = window.navigator.userAgent;
+        var isWin = (navigator.platform == "Win32") || (navigator.platform == "Windows") || (navigator.platform == "Win64");
+        var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC") || (navigator.platform == "Macintosh") || (navigator.platform == "MacIntel");
+        if(isMac) {
+          opName = "Mac";
+          Name = "Mac";
+        } else if(isWin) {
+          var osN = "";
+          if(ua.indexOf("WOW") != -1 || ua.indexOf("Win64") != -1) {
+            osN = "64";
+          } else {
+            osN = "32";
+          }
+          var osV = ua.substr(ua.indexOf("Windows NT ") + 11, 3);
+          switch(osV) {
+            case "5.0":
+              opName = "Windows XP2000";
+              Name = "Win2000";
+              break;
+            case "5.1":
+              opName = "Windows XP ";
+              Name = "WinXP";
+              break;
+            case "5.2":
+              opName = "Windows 2003";
+              Name = "Win2003";
+              break;
+            case "6.1":
+              opName = "Windows 7 " + osN + "位";
+              Name = "Win7";
+              break;
+            case "6.3":
+              opName = "Windows 8 " + osN + "位";
+              Name = "Win8";
+              break;
+            default:
+              Name = "Other";
+              break;
+          }
+        } else {
+          var isUnix = (navigator.platform == "X11") && !isWin && !isMac;
+          if(isUnix) {
+            opName = "Unix";
+            Name = "Unix";
+          } else {
+            var isLinux = (String(navigator.platform).indexOf("Linux") > -1);
+            if(isLinux) {
+              opName = "Linux";
+              Name = "Linux";
+            } else {
+              Name = "Other";
+            }
+          }
+        }
+        $("#xitong").html(opName);
+      }
+      //获取网速
+      function getNet() {
+        var starttime = new Date();
+        var size = 0, //文件长度，由脚本使用HEAD自动计算 
+          url = "2017-08-22_233329.jpg?" + new Date().valueOf(); //获取文件的长度： 
+        var xhr = $.ajax({
+          type: 'get', //"head",
+          url: url,
+          success: function(msg) {
+            size = xhr.getResponseHeader('Content-Length');
+            //开始GET数据： 
+            $.get(url, function(data) {
+              var endtime = new Date();
+              usetime = endtime - starttime;
+              if(usetime == 0) {
+                usetime = 10;
+              }
+              var speed = (size / (1024)) / (usetime / (1000));
+              var result_text = speed.toFixed(2);
+              $("#wangsu").html(result_text + "KB/S");
+            });
+          }
+        });
+      }
+      getNet();
+      getOsVersion();
+      getExplorerVersion();
+      getFlashVersion();
+      getNetline();
+    }());
+  </script>
+</html>

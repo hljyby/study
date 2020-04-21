@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <script type="text/javascript">
+        var SPLIT = 0.01;
+        var COUNT = 200;
+        var PI = 3.14159265;
+        var INTERVAL = 150;
+        var busySpan = new Array(); //array of busy times 
+        var idleSpan = new Array(); //array of idle times 
+        function showmsg() {
+
+            var half = INTERVAL / 2;
+            var radian = 0.0;
+            var i = 0;
+            for (i = 0; i < COUNT; i++) {
+                busySpan[i] = (half + (Math.sin(PI * radian) * half));
+                idleSpan[i] = INTERVAL - busySpan[i];
+                radian += SPLIT;
+            }
+            cystime();
+            return 0;
+        }
+        var j = 0;
+        var flag = 0;
+
+        function cystime() {
+            j = j % COUNT;
+            //busy 
+            flag = 0;
+            var nowobj = new Date();
+            var nowms = nowobj.getTime();
+            var newms = nowms;
+            while ((newms - nowms) < busySpan[j]) {
+                nowobj = new Date();
+                newms = nowobj.getTime();
+            }
+
+            //idle 
+            var idlt = setTimeout('cystime()', idleSpan[j]);
+            j++;
+        }
+    </script>
+</head>
+
+<body>
+    <input onclick="showmsg()" type="button" value="开始" />
+</body>
+
+</html>

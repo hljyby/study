@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var WMI = GetObject("WinMgmts://127.0.0.1");
+        var arrOS = new Array;
+        var Sql = "Select * From Win32_OperatingSystem";
+        GetInfo(Sql, function (obj) {
+            var arrTmp = ["系统"];
+            arrTmp.push("计算机名：" + obj.CSName);
+            arrTmp.push("操作系统：" + obj.Caption + "(" + obj.CSDVersion + ")");
+            arrTmp.push("安装时间：" + ParseTime(obj.InstallDate));
+            arrTmp.push("启动时间：" + ParseTime(obj.LastBootUpTime));
+            return arrTmp;
+        });
+        Sql = "Select * From Win32_BIOS";
+        GetInfo(Sql, function (obj) {
+            var arrTmp = ["BIOS"];
+            arrTmp.push("名 称：" + obj.Name);
+            arrTmp.push("版 本：" + obj.Version);
+            arrTmp.push("发布日期：" + ParseTime(obj.ReleaseDate));
+            return arrTmp;
+        });
+        Sql = "Select * From Win32_Processor";
+        GetInfo(Sql, function (obj) {
+            var arrTmp = ["中央处理器"];
+            arrTmp.push("设备标示：" + obj.DeviceID);
+            arrTmp.push("名 称：" + trim(obj.Name));
+            arrTmp.push("说 明：" + obj.Description);
+            arrTmp.push("版 本：" + obj.Version);
+            arrTmp.push("工作频率：" + ParseSpeed(obj.CurrentClockSpeed));
+            return arrTmp;
+        });
+        Sql = "Select * From Win32_PhysicalMemory";
+        GetMemInfo(Sql);
+        Sql = "Select * From Win32_LogicalDisk where DriveType = 3";
+        GetDiskInfo(Sql);
+        Sql = "Select * From Win32_VideoController";
+        GetInfo(Sql, function (obj) {
+            var arrTmp = ["显卡"];
+            arrTmp.push("芯片类型：" + obj.VideoProcessor);
+            arrTmp.push("显存大小：" + ParseMemory(obj.AdapterRAM));
+            return arrTmp;
+        });
+        Sql = "Select * From Win32_NetworkAdapterConfiguration Where IPEnabled = true";
+        GetInfo(Sql, function (obj) {
+            var arrIP = ["网卡"];
+            arrIP.push("网卡说明：" + obj.Description);
+            arrIP.push("动态地址：" + (obj.DHCPEnabled ? "是" : "否"));
+            arrIP.push("硬件地址：" + obj.MACAddress);
+            arrIP.push("网络地址：" + GetVBArray(obj.IPAddress));
+            arrIP.push("子网掩码：" + GetVBArray(obj.IPSubnet));
+            arrIP.push("默认网关：" + GetVBArray(obj.DefaultIPGateway));
+            arrIP.push("域名解析：" + GetVBArray(obj.DNSServerSearchOrder));
+            return arrIP;
+        });
+        WSH.Echo(arrOS.join("\r\n\r\n"));
+
+        function GetInfo(Sql, func) {
+            var enmObj = new Enumerator(WMI.ExecQuery(Sql));
+            while (!enmObj.atEnd()) {
+                arrOS.push(func(enmObj.item()).join("\r\n"));
+                enmObj.moveNext();
+            }
+        }
+
+        function GetVBArray(arr) {
+            return arr !== null ? new VBArray(arr).toArray() : [];
+        }
+
+        function ParseTime(strTime) {
+            return strTime.replace(/(.{4})(.{2})(.{2})(.{2})(.{2})(.{2}).*/, "$1-$2-$3 $4:$5:$6");
+        }
+
+        function ParseSpeed(speed) {
+            if (speed > 999) return (speed / 1000) + " GHz";
+            return speed + " MHz";
+        }
+
+        function GetMemInfo(Sql) {
+            var totalSize = 0;
+            var enmObj = new Enumerator(WMI.ExecQuery(Sql));
+            while (!enmObj.atEnd()) {
+                totalSize -= -enmObj.item().Capacity;
+                enmObj.moveNext();
+            }
+            var arrTmp = ["物理内存（总共 " + ParseMemory(totalSize) + "）"];
+            enmObj.moveFirst();
+            while (!enmObj.atEnd()) {
+                var obj = enmObj.item();
+                arrTmp.push(obj.Tag + ": " + ParseMemory(obj.Capacity));
+                enmObj.moveNext();
+            }
+            arrOS.push(arrTmp.join("\r\n"));
+        }
+
+        function ParseMemory(size) {
+            var i = 0,
+                arrExt = ["字节", "KB", "MB", "GB"];
+            while (true) {
+                if (size < 1024) return size + " " + arrExt[i];
+                size = (size / 1024).toFixed(2);
+                i++;
+            }
+        }
+
+        function GetDiskInfo(Sql) {
+            var totalSize = 0;
+            var enmObj = new Enumerator(WMI.ExecQuery(Sql));
+            while (!enmObj.atEnd()) {
+                totalSize -= -enmObj.item().Size;
+                enmObj.moveNext();
+            }
+            var arrTmp = ["本地硬盘（总共 " + ParseMemory(totalSize) + "）"];
+            enmObj.moveFirst();
+            while (!enmObj.atEnd()) {
+                var obj = enmObj.item();
+                arrTmp.push(obj.Name + "(" + obj.FileSystem + "): 总共 " + ParseMemory(obj.Size) + "，" + ParseMemory(obj
+                    .FreeSpace) + " 可用。");
+                enmObj.moveNext();
+            }
+            arrOS.push(arrTmp.join("\r\n"));
+        }
+
+        function trim(str) {
+            for (var i = 0; i < str.length && str.charAt(i) == " "; i++);
+            for (var j = str.length; j > 0 && str.charAt(j - 1) == " "; j--);
+            if (i > j) return "";
+            return str.substring(i, j);
+        }
+    </script>
+</body>
+
+</html>
