@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+</head>
+<!--设置地图容器显示-->
+<style type="text/css">
+    html {
+        height: 100%
+    }
+
+    body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+    }
+
+    #container {
+        height: 100%
+    }
+</style>
+
+<body>
+    <!--标题栏-->
+    <header class="mui-bar mui-bar-nav">
+        <h1 class="mui-title">首页</h1>
+    </header>
+    <!--主体内容-->
+    <div class="mui-content">
+        <!--单击button-->
+        <button type="button" onclick="btn()" class="mui-btn mui-btn-blue">震动</button>
+
+    </div>
+    <script>
+        //单击事件
+        function btn() {
+            navigator.vibrate = navigator.vibrate ||
+                navigator.webkitVibrate ||
+                navigator.mozVibrate ||
+                navigator.msVibrate;
+
+            if (navigator.vibrate) {
+                // 支持
+                console.log("支持设备震动！");
+                console.log(navigator.vibrate)
+            }
+
+            window.navigator.vibrate([500, 300, 400, 300,200,100,500]);
+        }
+    </script>
+
+</body>
+
+</html>
