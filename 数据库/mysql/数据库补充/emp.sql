@@ -1,0 +1,14 @@
+INSERT INTO `emp` VALUES (7369, '孙悟空', '职员', '7902', '2010-12-17', 800, NULL, 20);
+INSERT INTO `emp` VALUES (7499, '孙尚香', '销售人员', '7698', '2011-2-20', 1600, 300, 30);
+INSERT INTO `emp` VALUES (7521, '李白', '销售人员', '7698', '2011-2-22', 1250, 500, 30);
+INSERT INTO `emp` VALUES (7566, '程咬金', '经理', '7839', '2011-4-2', 2975, NULL, 20);
+INSERT INTO `emp` VALUES (7654, '妲己', '销售人员', '7698', '2011-9-28', 1250, 1400, 30);
+INSERT INTO `emp` VALUES (7698, '兰陵王', '经理', '7839', '2011-5-1', 2854, NULL, 30);
+INSERT INTO `emp` VALUES (7782, '虞姬', '经理', '7839', '2011-6-9', 2450, NULL, 10);
+INSERT INTO `emp` VALUES (7788, '项羽', '检查员', '7566', '2017-4-19', 3000, NULL, 20);
+INSERT INTO `emp` VALUES (7839, '张飞', '总裁', NULL, '2010-6-12', 5000, NULL, 10);
+INSERT INTO `emp` VALUES (7844, '蔡文姬', '销售人员', '7698', '2011-9-8', 1500, 0, 30);
+INSERT INTO `emp` VALUES (7876, '阿珂', '职员', '7788', '2017-5-23', 1100, NULL, 20);
+INSERT INTO `emp` VALUES (7900, '刘备', '职员', '7698', '2011-12-3', 950, NULL, 30);
+INSERT INTO `emp` VALUES (7902, '诸葛亮', '检查员', '7566', '2011-12-3', 3000, NULL, 20);
+INSERT INTO `emp` VALUES (7934, '鲁班', '职员', '7782', '2012-1-23', 1300, NULL, 10);
