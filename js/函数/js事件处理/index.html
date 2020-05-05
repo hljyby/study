@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="div">
+        <button id="btn1" onclick="demo01()">BUTTON_1</button>
+        <button id="btn2">BUTTON_2</button>
+        <button id="btn3">BUTTON_3</button>
+        <button id="btn4">BUTTON_4</button>
+        <div id="btn01" style="width: 200px;height: 100px;background: red;overflow: hidden;">
+            <div id="btn02" style="width: 100px;height: 50px;background: green;margin: 20px;"></div>
+        </div>
+    </div>
+</body>
+<script>
+    // HTML事件处理(改动时改动两处)
+    function demo01() {
+        alert('HTML事件处理');
+    }
+
+    // DOM 0级事件处理(事件会被覆盖掉)
+    var btn2 = document.getElementById('btn2');
+    btn2.onclick = function () { // 被覆盖掉
+        alert('DOM 0级事件处理 1')
+    }
+    btn2.onclick = function () {
+        alert('DOM 0级事件处理 2')
+    }
+
+    // DOM 2级事件处理(不会覆盖事件)
+    // addEventListener('事件名','事件处理函数','布尔值')
+    // true: 事件捕获
+    // false: 事件冒泡
+    // removeEventListener()
+    var btn3 = document.getElementById('btn3');
+    btn3.addEventListener('click', demo1) // 不会覆盖事件
+    btn3.addEventListener('click', demo2)
+    btn3.addEventListener('click', demo3)
+
+    function demo1() {
+        alert('DOM 2级事件处理1')
+    }
+
+    function demo2() {
+        alert('DOM 2级事件处理2')
+    }
+
+    function demo3() {
+        alert('DOM 2级事件处理3')
+    }
+    btn3.removeEventListener('click', demo2)
+    // 父级元素为true时，先执行父级元素的事件，否则执行子级元素事件，与函数先后顺序无关
+    var btn01 = document.getElementById('btn01');
+    var btn02 = document.getElementById('btn02');
+    btn01.addEventListener('click', function () {
+        alert('btn01')
+    }, true)
+    btn02.addEventListener('click', function () {
+        alert('btn02')
+    }, false)
+
+    // IE事件处理程序
+    // attachEvent
+    // detachEvent
+
+    // 兼容写法
+    var btn4 = document.getElementById('btn4');
+    if (btn4.addEventListener) {
+        btn4.addEventListener('click', function () {
+            demo(1)
+        })
+    } else if (btn4.attachEvent) {
+        btn4.attachEvent('onclick', function () {
+            demo(2)
+        })
+    } else {
+        btn4.onclick = function () {
+            demo(3)
+        };
+    }
+
+    function demo(n) {
+        alert('兼容点击事件' + n);
+    }
+</script>
+
+</html>

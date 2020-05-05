@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>本地单图上传预览</title>
+</head>
+<style>
+    img {
+        border: 1px solid #000;
+        background-color: #ccc;
+        min-width: 60px;
+        min-height: 60px;
+    }
+</style>
+<body>
+
+<input type="file" id="upImg" onchange="preImg(this.id,'imgPre');"/>
+<img id="imgPre" src="" style="display: block;"/>
+
+<script>
+    /**
+     * 本地图片预览
+     */
+    // 获取上传文件地址函数
+    function getFileUrl(sourceId) {
+        var url;
+        var elUpload = document.getElementById(sourceId);
+        if (navigator.userAgent.indexOf("MSIE") >= 1) { // IE下的地址
+            url = elUpload.value;
+        }
+        else if (navigator.userAgent.indexOf("Firefox") > 0) { // Firefox下的地址
+            url = window.URL.createObjectURL(elUpload.files.item(0));
+        }
+        else if (navigator.userAgent.indexOf("Chrome") > 0) { // Chrome下的地址
+            url = window.URL.createObjectURL(elUpload.files.item(0));
+        }
+        console.log(url);
+        return url;
+    }
+
+    function preImg(sourceId, targetId) {
+        var imgPre = document.getElementById(targetId);
+        imgPre.src = getFileUrl(sourceId);// 获取地址
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>本地单图上传预览</title>
+</head>
+<body>
+
+<input type="file" name="" id="imgUpBtn" multiple onchange="javascript:setImagePreviews()">
+<div id="addPictures"></div>
+
+
+<script type="text/javascript">
+    function setImagePreviews() {
+        var fileUp = document.getElementById("imgUpBtn");
+        var addImgs = document.getElementById("addPictures");
+        addImgs.innerHTML = "";
+        var fileList = fileUp.files;
+        for (var i = 0; i < fileList.length; i++) {
+            addImgs.innerHTML += "<img id='img" + i + "'  />";
+            var imgObjPreview = document.getElementById("img" + i);
+            imgObjPreview.style.width = '150px';
+            imgObjPreview.style.height = '150px';
+            imgObjPreview.src = window.URL.createObjectURL(fileUp.files[i]);
+        }
+    }
+</script>
+
+
+<!--<script type="text/javascript">-->
+
+    <!--//下面用于多图片上传预览功能-->
+
+    <!--function setImagePreviews() {-->
+
+        <!--// 上传按钮-->
+        <!--var fileUp = document.getElementById("imgUpBtn");-->
+
+        <!--// 获取需要添加图片的父元素-->
+        <!--var addImgs = document.getElementById("addPictures");-->
+
+        <!--// 每次调用时令元素内内容为空-->
+        <!--addImgs.innerHTML = "";-->
+
+        <!--// 图片地址类数组-->
+        <!--var fileList = fileUp.files;-->
+
+        <!--// 循环类数组-->
+        <!--for (var i = 0; i < fileList.length; i++) {-->
+
+            <!--// 向元素内添加图片标签-->
+            <!--addImgs.innerHTML += "<img id='img" + i + "'  />";-->
+
+            <!--// 获取图片id，每次循环赋值给imgObjPreview的id都不同-->
+            <!--var imgObjPreview = document.getElementById("img" + i);-->
+
+            <!--// 判断-->
+            <!--if (fileUp.files && fileUp.files[i]) {-->
+
+                <!--//火狐下，直接设img属性-->
+
+                <!--imgObjPreview.style.width = '150px';-->
+
+                <!--imgObjPreview.style.height = '150px';-->
+
+                <!--// 每次循环都向图片标签添加路径-->
+                <!--imgObjPreview.src = window.URL.createObjectURL(fileUp.files[i]);-->
+
+            <!--}-->
+
+            <!--else {-->
+
+                <!--//IE下，使用滤镜-->
+
+                <!--fileUp.select();-->
+
+                <!--var imgSrc = document.selection.createRange().text;-->
+
+                <!--alert(imgSrc)-->
+
+                <!--var localImgId = document.getElementById("img" + i);-->
+
+                <!--//必须设置初始大小-->
+
+                <!--localImgId.style.width = "150px";-->
+
+                <!--localImgId.style.height = "150px";-->
+
+                <!--//图片异常的捕捉，防止用户修改后缀来伪造图片-->
+
+                <!--try {-->
+
+                    <!--localImgId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";-->
+
+                    <!--localImgId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;-->
+
+                <!--}-->
+
+                <!--catch (e) {-->
+
+                    <!--alert("您上传的图片格式不正确，请重新选择!");-->
+
+                    <!--return false;-->
+
+                <!--}-->
+
+                <!--imgObjPreview.style.display = 'none';-->
+
+                <!--document.selection.empty();-->
+
+            <!--}-->
+
+        <!--}-->
+
+        <!--return true;-->
+
+    <!--}-->
+
+<!--</script>-->
+</body>
+</html>

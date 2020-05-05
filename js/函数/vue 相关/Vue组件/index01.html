@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>传值验证</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <template>
+            <demo :prop-a="propA" :prop-b="propB" :prop-c="propC" :prop-d="propD" :prop-e="propE" :prop-f="propF">
+            </demo>
+        </template>
+    </div>
+    <script>
+        // type: String Number Boolean Function Object Array
+        Vue.component('demo', {
+            props: {
+                // 基础类型检测 (`null` 意思是任何类型都可以)
+                propA: Number,
+                // 多种类型
+                propB: [String, Number],
+                // 必传且是字符串
+                propC: {
+                    type: String,
+                    required: true
+                },
+                // 数字，有默认值
+                propD: {
+                    type: Number,
+                    default: 100
+                },
+                // 数组／对象的默认值应当由一个工厂函数返回
+                propE: {
+                    type: Object,
+                    default: function () {
+                        return {
+                            message: 'hello'
+                        }
+                    }
+                },
+                // 自定义验证函数
+                propF: {
+                    validator: function (value) {
+                        return value > 10
+                    }
+                }
+            },
+            template: `
+                <p>
+                    propA：{{propA}}<br/>
+                    propB：{{propB}}<br/>
+                    propC：{{propC}}<br/>
+                    propD：{{propD}}<br/>
+                    propE：{{propE}}<br/>
+                    propF：{{propF}}
+                </p>`
+        });
+
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    propA: 123,
+                    propB: '123',
+                    propC: 123,
+                    propD: 200,
+                    propE: {
+                        msg: "Hello World!"
+                    },
+                    propF: 10
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

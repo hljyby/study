@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Show my location</title>
+</head>
+
+<body>
+    <p><button onclick="geoFindMe()">Show my location</button></p>
+    <div id="out"></div>
+    <script>
+        function geoFindMe() {
+            
+            var output = document.getElementById("out");
+
+            output.innerHTML = "<p>Locating…</p>";
+            
+            if ("geolocation" in navigator) {
+                /* 地理位置服务可用 */
+                navigator.geolocation.getCurrentPosition(success, error);
+            } else {
+                /* 地理位置服务不可用 */
+                output.innerHTML = "<p>地理位置服务不可用</p>";
+            }
+
+            // 成功调用
+            function success(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                output.innerHTML = "经度:" + longitude + "<br/>纬度:" + latitude;
+            }
+
+            // 失败调用
+            function error() {
+                output.innerHTML = "无法获取您的位置";
+            }
+
+        }
+    </script>
+</body>
+
+</html>

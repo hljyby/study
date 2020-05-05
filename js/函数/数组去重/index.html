@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数组去重</title>
+</head>
+
+<body>
+    <script>
+        // ES5
+        /**
+         * 数组、字符串去重
+         * @param  {[string/array]} [数组]
+         * @return {[array]}    [返回数组]
+         */
+        Array.prototype.unique = function () {
+
+            var obj = {};
+
+            for (var i = 0; i < this.length; i++) {
+
+                obj[this[i]] = this[i];
+
+            }
+
+            var newArr = [];
+
+            for (var index in obj) {
+
+                newArr.push(index);
+
+            }
+
+            return newArr;
+
+        }
+
+
+        // ES6
+        let array = [1, 1, 1, 1, 2, 4, 4, 3, 5, 3];
+        let set = new Set(array);
+        let newArr = Array.from(set);
+
+
+
+        // ES5
+        console.log(array.unique());
+
+        // ES6
+        console.log(set); // 类数组
+        console.log(newArr); // 数组
+    </script>
+</body>
+
+</html>

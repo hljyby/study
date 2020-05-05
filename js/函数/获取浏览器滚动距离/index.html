@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>获取浏览器滚动距离</title>
+</head>
+
+<body>
+    <script>
+    /**
+     * 获取浏览器滚动距离
+     */
+    function getScrollOffset() {
+        if (window.pageXOffset) {
+            return {
+                x: window.pageXOffset,
+                y: window.pageYOffset
+            }
+        } else {
+            return {
+                x: document.body.scrollLeft + document.documentElement.scrollLeft,
+                y: document.body.scrollTop + document.documentElement.scrollTop
+            }
+        }
+    }
+    console.log(getScrollOffset());
+    </script>
+</body>
+
+</html>

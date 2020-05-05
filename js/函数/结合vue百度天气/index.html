@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>百度天气</title>
+</head>
+
+<style>
+    ul {
+        background-color: #fff000;
+        padding: 10px 40px;
+    }
+
+    #city {
+        padding: 10px;
+        width: 200px;
+        height: 15px;
+        border: 1px solid #00ff00;
+    }
+
+    #search {
+        height: 37px;
+        background-color: #000;
+        color: #fff;
+        border: 0;
+        width: 100px;
+        vertical-align: middle;
+    }
+
+    #search:hover {
+        background-color: #00ff00;
+        color: #ff6600;
+    }
+</style>
+
+<body>
+    <h3>默认显示天津天气</h3>
+    <form action="" onsubmit="return false;">
+        <input type="text" name="" id="city" placeholder="请输入城市···">
+        <input type="submit" value="搜索" id="search">
+    </form>
+
+    <div id="weather">
+
+        <p>时间：{{ weatherData.date }}</p>
+
+        <p>提示：{{ weatherData.status }}</p>
+
+        <p>错误：{{ weatherData.error }}</p>
+
+        <div v-for="(item) in weatherData.results">
+
+            <p>地区：{{ item.currentCity }}</p>
+
+            <ul v-for="(item) in item.index">
+                <li>{{ item.des }}</li>
+                <li>{{ item.tipt }}</li>
+                <li>{{ item.title }}</li>
+                <li>{{ item.zs }}</li>
+            </ul>
+
+            <p>PM2.5:{{ item.pm25 }}</p>
+
+            <ul v-for="(item) in item.weather_data">
+                <li>{{ item.date }}</li>
+                <li>
+                    <img v-bind:src="item.dayPictureUrl" alt="">
+                </li>
+                <li>{{ item.temperature }}</li>
+                <li>{{ item.weather }}</li>
+                <li>{{ item.wind }}</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="weather.js"></script>
+
+</body>
+
+</html>

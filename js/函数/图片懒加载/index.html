@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片懒加载</title>
+</head>
+<style>
+	img{
+		display: block;
+		border: 1px solid red;
+	}
+	div{
+		transition: 1s;
+		width:600px;
+		height:400px;
+		background-size: cover; 
+		background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=');
+		border: 1px solid red;
+		text-align: center;
+	}
+</style>
+<body>
+	
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图1</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图2</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图3</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图4</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图5</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图6</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图7</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图8</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图9</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图10</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图11</div>
+	<div class="lazy" data-src="https://dummyimage.com/600x400/00ffff/000">背景图12</div>
+	<hr>
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=图" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=片" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=图片" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=呵呵" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=啊啊" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=作者" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=摆手" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=微笑" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=图" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=杀杀杀" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000&text=看看看" width="600" height="400" />
+	<img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkwBADs=" data-src="https://dummyimage.com/600x400/00ffff/000" width="600" height="400" />
+
+	<script src="lazyload.js"></script>
+	<script>
+		// 默认class是lazyload
+		let images = document.querySelectorAll(".lazy");
+		
+		window.addEventListener("load", function(event) {
+		    // let timeout = setTimeout(function() { // 延迟5秒加载
+		    //     lazyload();
+		    // }, 5000);
+		    lazyload(images);
+		});
+	</script>
+</body>
+</html>

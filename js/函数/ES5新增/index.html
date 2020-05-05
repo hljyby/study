@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ES5新增</title>
+</head>
+
+<body>
+
+    <script>
+        // forEach 返回undefined
+        var arr = ['Prosper', 'Lee', 'is', ['very', 'very'], 'nice', '!', , null];
+        // ES6写法
+        arr.forEach((currentValue, index, array) => {
+            console.log('arr[' + index + ']=' + array[index] + '==' + currentValue);
+            console.log(array.join(",").split(",").join(' '));
+        });
+        arr.forEach(function (currentValue, index, array) {
+            console.log('arr[' + index + ']=' + array[index] + '==' + currentValue);
+            console.log(array.join(",").split(",").join(' '));
+        })
+        // this参数
+        function Counter() {
+            this.sum = 0;
+            this.count = 0;
+        }
+        Counter.prototype.add = function (array) {
+            array.forEach(function (entry) {
+                this.sum += entry;
+                ++this.count;
+                console.log(this); // this指向Counter,否则指向window
+            }, this);
+        };
+        var obj = new Counter();
+        obj.add([1, 3, 5, 7]);
+        console.log(obj.count); // 4 === (1+1+1+1)
+        console.log(obj.sum); // 16 === (1+3+5+7)
+        // ##################################################################################################################### \\
+        // map与上同，不同方法如下 将每次的值存到数组中然后返回成一个新数组
+        var arr1 = ['1', '2', 3, '4', 5, '6'];
+        console.log(arr1.map(v => v + '2'));
+        console.log(arr1.map(v => v + 2));
+        console.log(arr1.map(v => v * '2'));
+        // 例1 返回新数组
+        var kvArray = [{
+                key: function () {},
+                value: 10
+            },
+            {
+                key: 'abc',
+                value: 20
+            },
+            {
+                key: 3,
+                value: 30
+            }
+        ];
+        var reformattedArray = kvArray.map(function (obj) {
+            var rObj = {};
+            rObj[obj.key] = obj.value;
+            return rObj;
+        });
+        console.log(reformattedArray); // [{function () {}: 10},{abc: 20},{3: 30}]
+        // 例2 两种结果相同
+        "Hello World".split('').map(function(x) { 
+            return x; 
+        })
+        Array.prototype.map.call("Hello World", function(x) { 
+            return x; 
+        })
+        // 例3 返回选项
+        var select = `<select name="" id="" multiple="multiple" size="2">
+            <option value="HTML" selected="selected">HTML</option>
+            <option value="CSS" selected="selected">CSS</option>
+            <option value="JS">JS</option>
+            <option value="Vue">Vue</option>
+        </select>`;
+        document.write(select);
+        var elems = document.querySelectorAll('select option:checked');
+        var values = Array.prototype.map.call(elems, function(obj) {
+            return obj.value;
+        })
+        console.log(values); // ["HTML", "CSS"]
+        // ##################################################################################################################### \\
+        // some() 方法测试数组中的某些元素是否通过由提供的函数实现的测试
+        var arr2 = ['Prosper', 'Lee', 'is', ['very', 'very'], 'nice', '!', , null];
+        arr2.some(function (currentValue, index, array) {
+            return currentValue == 'is'; // 通过true
+        })
+        // ##################################################################################################################### \\
+        // every() 方法测试数组的所有元素是否都通过了指定函数的测试
+        arr2.every(function (currentValue, index, array) {
+            return currentValue == 'Prosper'; // 不通过false
+        })
+        var arr3 = ['Prosper','Prosper','Prosper','Prosper','Prosper','Prosper'];
+        arr3.every(function (currentValue, index, array) {
+            return currentValue == 'Prosper'; // 通过true
+        })
+        // ##################################################################################################################### \\
+        // filter() 方法创建一个新数组, 其包含通过所提供函数实现的测试的所有元素
+        var arr4 = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+        var result = arr4.filter(word => word.length > 6);
+        console.log(result);
+        // ##################################################################################################################### \\
+        // indexOf() str.indexOf(searchValue[, fromIndex]) 方法返回调用 String对象中第一次出现的指定值的索引，开始在 fromIndex进行搜索。如果未找到该值，则返回-1。
+        var arr5 = ['Prosper', 'Lee', 'is', 'very', 'nice', '!!!'];
+        console.log(arr5.indexOf("Pro", 0));        // returns -1
+        console.log(arr5.indexOf("Pro"));           // returns -1
+        console.log(arr5.indexOf("Lee"));           // returns  1
+        console.log(arr5.indexOf("Lee",2));         // returns -1
+        console.log("Prosper Lee".indexOf("Prosper"));      // returns  0
+        console.log("Prosper Lee".indexOf("Lee"));          // returns  8
+        console.log("Prosper Lee".indexOf("Prosper", 0));   // returns  0
+        console.log("Prosper Lee".indexOf("Prosper", 5));   // returns -1
+        console.log("Prosper Lee".indexOf("z"));            // returns -1
+        console.log("Prosper Lee".indexOf("", 10));         // returns 10
+        console.log("Prosper Lee".indexOf("", 11));         // returns 11
+        console.log("Prosper Lee".indexOf("", 12));         // returns 11
+        // ##################################################################################################################### \\
+        // lastIndexOf() 方法可返回一个指定的字符串值最后出现的位置。第二个参数为从0开始查，查到第几个结束
+        console.log('Prosper Lee'.lastIndexOf('e'));        // 10
+        console.log('Prosper Lee'.lastIndexOf('o'));        //  2
+        console.log('Prosper Lee'.lastIndexOf('b'));        // -1
+        console.log('Prosper Lee'.lastIndexOf('e',4));      // -1
+        console.log('Prosper Lee'.lastIndexOf('e',5));      //  5
+        console.log('Prosper Lee'.lastIndexOf('e',9));      //  9
+        console.log('Prosper Lee'.lastIndexOf('e',10));     // 10
+        // ##################################################################################################################### \\ 
+        // array.reduce(function (accumulator, currentValue, currentIndex, array) {}, initialValue)
+        [{x: 1}, {x:2}, {x:3}].reduce((accumulator, currentValue) => accumulator + currentValue.x, 0); // 6
+        [[0, 1], [2, 3], [4, 5]].reduce(( acc, cur ) => acc.concat(cur), []); // [0,1,2,3,4,5]
+        // 统计出现次数
+        ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice'].reduce(function (allNames, name) {
+            allNames[name] = ++allNames[name] || 1;
+            // if (name in allNames) {
+            //     allNames[name]++;
+            // } else {
+            //     allNames[name] = 1;
+            // }
+            return allNames;
+        }, {}); // { 'Alice': 2, 'Bob': 1, 'Tiff': 1, 'Bruce': 1 }
+        // 按属性对object分类节
+        var people = [{
+                name: 'Alice',
+                age: 21
+            },
+            {
+                name: 'Max',
+                age: 20
+            },
+            {
+                name: 'Jane',
+                age: 20
+            }
+        ];
+        function groupBy(objectArray, property) {
+            return objectArray.reduce(function (acc, obj) {
+                var key = obj[property];
+                // console.log(key); // 21 20 20
+                if (!acc[key]) { // undefined时才定义空数组
+                    acc[key] = [];
+                }
+                acc[key].push(obj);
+                return acc;
+            }, {});
+        }
+        console.log(groupBy(people, 'age'));
+        // groupedPeople is:
+        // { 
+        //   20: [
+        //     { name: 'Max', age: 20 }, 
+        //     { name: 'Jane', age: 20 }
+        //   ], 
+        //   21: [{ name: 'Alice', age: 21 }] 
+        // }
+        [0, 1, 2, 3, 4].reduce((accumulator, currentValue, currentIndex, array) => { return accumulator + currentValue; }, 10 ); // 20
+        // callback	    accumulator     currentValue	currentIndex	    array	        return value
+        // [1 call]	        10	            0	            0	        [0, 1, 2, 3, 4]	        10
+        // [2 call]	        10	            1	            1	        [0, 1, 2, 3, 4]	        11
+        // [3 call]	        11	            2	            2	        [0, 1, 2, 3, 4]	        13
+        // [4 call]	        13	            3	            3	        [0, 1, 2, 3, 4]	        16
+        // [5 call]	        16	            4	            4	        [0, 1, 2, 3, 4]	        20
+        // ##################################################################################################################### \\
+        // array.reduceRight(function (previousValue, currentValue, index, array) {}, initialValue)
+        [0, 1, 2, 3, 4].reduceRight((previousValue, currentValue, index, array) => { return previousValue + currentValue; }, 10); // 20
+        // callback	    accumulator     currentValue	currentIndex	    array	        return value
+        // [1 call]	        10	            4	            4	        [0, 1, 2, 3, 4]	        14
+        // [2 call]	        14	            3	            3	        [0, 1, 2, 3, 4]	        17
+        // [3 call]	        17	            2	            2	        [0, 1, 2, 3, 4]	        19
+        // [4 call]	        19	            1	            1	        [0, 1, 2, 3, 4]	        20
+        // [5 call]	        20	            0	            0	        [0, 1, 2, 3, 4]	        20
+        // ##################################################################################################################### \\
+        // reduce 与 reduceRight 之间的区别
+        ['1', '2', '3', '4', '5'].reduce((prev, cur) => prev + cur); // 12345
+        ['1', '2', '3', '4', '5'].reduceRight((prev, cur) => prev + cur); // 54321
+        // ##################################################################################################################### \\
+        // Array.isArray() 用于确定传递的值是否是一个 Array。
+        Array.isArray([1, 2, 3]);   // true
+        Array.isArray({foo: 123});  // false
+        Array.isArray("foobar");    // false
+        Array.isArray(undefined);   // false
+        // ##################################################################################################################### \\
+        // Array.from() 方法从一个类似数组或可迭代对象中创建一个新的数组实例。
+        Array.from(['a', 'b', 'c'], (v, i) => i + "->" + v ); // ["0->a", "1->b", "2->c"]
+        Array.from(['a', 'b', 'c'], x => x + x ); // ["aa", "bb", "cc"]
+        Array.from({ length: 5 }, (v, i) => i); // [0, 1, 2, 3, 4]
+        var m = [1, 2, 2], n = [2,3,3]; 
+        function combine(){ 
+            let arr = [].concat.apply([], arguments); // 没有去重的新数组
+            console.log(arr);
+            return Array.from(new Set(arr));
+        }
+        console.log(combine(m,n));
+        // ##################################################################################################################### \\
+        // trim() 去掉字符串前后空白
+        console.log(' Prosper Lee '.trim()); // "Prosper Lee"
+        console.log('Prosper Lee  '.replace(/^\s+|\s+$/g, "z")); // "Prosper Leez" // 兼容： 将前后有空格的位置替换成z
+    </script>
+</body>
+
+</html>

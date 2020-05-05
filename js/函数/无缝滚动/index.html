@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>无缝滚动</title>
+    <style>
+        .wrap {
+            margin: 0 auto;
+            width: 300px;
+            white-space: nowrap;
+            height: 30px;
+            line-height: 30px;
+            overflow: hidden;
+            border: 1px solid;
+        }
+
+        .start,
+        .end {
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="wrap">
+        <div id="start" class="start">
+            Vue.js (读音 /vjuː/，类似于 view) 是一套构建用户界面的渐进式框架。Vue的核心库只关注视图层，它不仅易于上手，还便于与第三方库或既有项目整合。
+        </div>
+        <div class="end">
+            Vue.js (读音 /vjuː/，类似于 view) 是一套构建用户界面的渐进式框架。Vue的核心库只关注视图层，它不仅易于上手，还便于与第三方库或既有项目整合。
+        </div>
+    </div>
+    <script>
+        var wrap = document.getElementById('wrap');
+        var start = document.getElementById('start');
+        var startWidth = getStyle(start, 'width');
+
+        function move() {
+            wrap.scrollLeft++;
+            if (wrap.scrollLeft >= startWidth) {
+                wrap.scrollLeft = 0;
+            }
+        }
+        var timer = window.setInterval(move, 10);
+        wrap.onmouseover = function () {
+            window.clearInterval(timer);
+        };
+        wrap.onmouseout = function () {
+            timer = window.setInterval(move, 10);
+        };
+
+        // 获取css的值
+        function getStyle(ele, attr) {
+            var val = null,
+                reg = null;
+            if (window.getComputedStyle) {
+                val = window.getComputedStyle(ele, null)[attr];
+            } else {
+                val = ele.currentStyle[attr];
+            }
+            reg = /^(-?\d+(\.\d+)?)(px|pt|rem|em)?$/i; // 正则匹配单位,若带有px等单位，将单位剔除掉
+            return reg.test(val) ? parseFloat(val) : val;
+        }
+    </script>
+</body>
+
+</html>

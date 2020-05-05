@@ -1,0 +1,41 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    position: relative;
+}
+
+#box {
+    position: relative;
+    margin: 0 auto;
+}
+
+.item {
+    width: 260px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: absolute;
+}
+
+.imgBox {
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px slategray;
+    border-radius: 5px;
+}
+
+img {
+    display: block;
+    width: 100%;
+}

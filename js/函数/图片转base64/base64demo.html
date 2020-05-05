@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer"/>
+    <!-- <meta http-equiv="Access-Control-Allow-Origin" content="*"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>base64demo</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * [getBase64 转换成base64]
+         * @param  {[String]} imgUrl [图片地址]
+         */
+        function getBase64(imgUrl) {
+        
+            window.URL = window.URL || window.webkitURL;
+        
+            var xhr = new XMLHttpRequest();
+        
+            xhr.open("get", imgUrl, true);
+
+            // 返回的数据类型
+            xhr.responseType = "blob";
+
+            xhr.onload = function () {
+        
+                if (this.status == 200) {
+        
+                    // 得到一个blob对象
+                    var blob = this.response;
+                    
+                    console.log(blob);
+
+                    // 文件读取
+                    let fileReader = new FileReader();
+        
+                    fileReader.onloadend = function (e) { // onloadend 当读取操作完成时调用,不管是成功还是失败
+        
+                        let base64 = e.target.result;
+
+                        console.log(base64);
+
+                    };
+        
+                    fileReader.readAsDataURL(blob); // 异步读取文件内容，结果用data:url的字符串形式表示
+        
+                }
+        
+            }
+        
+            xhr.send();
+        
+        }
+
+        getBase64("https://pic.cnblogs.com/face/1401533/20180515210715.png");
+    </script>
+</body>
+
+</html>

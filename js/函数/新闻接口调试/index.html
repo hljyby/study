@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NEWS接口调试</title>
+</head>
+<style  type="text/css">
+    [v-cloak] {
+        display: none;
+    }
+
+    a{
+        color: blue;
+        text-decoration: none;
+        transition: 1s;
+    }
+    a:hover{
+        color: orange;
+        margin-left: 20px;
+        transition: 1s;
+    }
+    ol{
+        border: 1px solid #000;
+        width: 800px;
+        padding-right: 10px;
+    }
+    .btn,form{
+        width: 851.98px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .btn button{
+        padding: 3px 10px;
+    }
+    .btn span{
+        vertical-align: middle;
+    }
+    p{
+        text-align: justify;
+        display: grid;
+        border-left: 6px solid #ccc;
+        background-color: #eee;
+        padding: 6px 12px;
+    }
+    form{
+        margin: 0 auto 20px auto;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    form input[type='text']{
+        padding: 3px 10px;
+        margin-right: 10px;
+    }
+    #newslist{
+        width: 851.98px;
+        margin: 0 auto;
+    }
+    h3{
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+        overflow: hidden;
+    }
+</style>
+<body>
+    <form action="" onsubmit="return false;">
+        <label>关键字 <input type="text" name="kw" id="kw" placeholder="请输入关键字"></label>
+        <button type="submit">提交</button>
+    </form>
+    <div id="newslist" v-cloak>
+        <div class="btn">
+            <button id="prev" v-on:click="prev(kw,num -= 1)" disabled="true">上一页</button>
+            <span>{{num}}</span>
+            <button id="next" v-on:click="next(kw,num += 1)">下一页</button>
+        </div>
+        <ol>
+            <li v-for="(item) in showData.data">
+                <h3><a v-bind:href="item.url" target="_blank" v-html="item.title"></a></h3>
+                <div style="display: flex;justify-content: space-between;">
+                    <span>来自：{{item.posterScreenName}}->{{item.posterId}}</span>  
+                    <span>发布时间：{{item.publishDateStr}}</span>    
+                </div>   
+                <p v-if="item.content" v-html="item.content"></p>
+            </li>
+        </ol>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 默认搜索互联网
+        // site参数设置网站,
+        var vmShowNews = new Vue({
+            el:"#newslist",
+            data:{
+                showData:{},
+                num:1,
+                kw:$('#kw').val(),
+                next:function(keyword,num){
+                    if ($('#kw').val() == "") {
+                        keyword = "互联网";
+                    }else{
+                        keyword = $('#kw').val();
+                    }
+                    $.ajax({
+                        url: "news.php",
+                        async:false,
+                        data: {
+                            kw:keyword,
+                            pageToken:num
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            if(data.retcode == "000000"){
+                                if (num == 1) {
+                                    $('#prev').attr('disabled',true);
+                                }else{
+                                    $('#prev').attr('disabled',false);
+                                }
+                                vmShowNews.showData = data;
+                                if (data.hasNext === false) {
+                                    $('#next').attr('disabled',true);
+                                }
+                            }else{
+                                alert(data.message);
+                            }
+                            
+                        }
+                    }); 
+                },
+                prev:function(keyword,num){
+                    if ($('#kw').val() == "") {
+                        keyword = "互联网";
+                    }else{
+                        keyword = $('#kw').val();
+                    }
+                    $.ajax({
+                        url: "news.php",
+                        async:false,
+                        data: {
+                            kw:keyword,
+                            pageToken:num
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            if(data.retcode == "000000"){
+                                if (num == 1) {
+                                    $('#prev').attr('disabled',true);
+                                }
+                                vmShowNews.showData = data;
+                            }else{
+                                alert(data.message);
+                            }
+                        }
+                    });
+                }
+            }
+        })
+        vmShowNews.next('',1);
+        $("button[type='submit']").click(function(){
+            vmShowNews.next($('#kw').val(),1);
+        })
+    </script>
+</body>
+
+</html>

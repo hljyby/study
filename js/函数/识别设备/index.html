@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>识别设备</title>
+</head>
+
+<body>
+	<script>
+		// Navigator 对象属性
+		// appCodeName		返回浏览器的代码名。
+		// appMinorVersion	返回浏览器的次级版本。
+		// appName			返回浏览器的名称。
+		// appVersion		返回浏览器的平台和版本信息。
+		// browserLanguage	返回当前浏览器的语言。
+		// cookieEnabled	返回指明浏览器中是否启用 cookie 的布尔值。
+		// cpuClass			返回浏览器系统的 CPU 等级。
+		// onLine			返回指明系统是否处于脱机模式的布尔值。
+		// platform			返回运行浏览器的操作系统平台。
+		// systemLanguage	返回 OS 使用的默认语言。
+		// userAgent		返回由客户机发送服务器的 user-agent 头部的值。
+		// userLanguage		返回 OS 的自然语言设置。
+		// Navigator 对象方法
+		// javaEnabled()	规定浏览器是否启用 Java。
+		// taintEnabled()	规定浏览器是否启用数据污点 (data tainting)。
+		console.log(window.navigator);
+
+		// 判断pc端还是移动端
+		function isPC() {
+
+			var userAgentInfo = navigator.userAgent;
+
+			var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+
+			var flag = true;
+
+			for (var i = 0; i < Agents.length; i++) {
+
+				if (userAgentInfo.indexOf(Agents[i]) > 0) {
+
+					flag = false;
+
+					break;
+
+				}
+
+			}
+
+			return flag;
+
+		}
+
+		// 判断用户移动端使用的系统平台
+		function isMobile() {
+
+			var u = navigator.userAgent;
+
+			if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+
+				return "Android!"; // 安卓手机
+
+			} else if (u.indexOf('iPhone') > -1) {
+
+				return "iPhone!"; // 苹果手机
+
+			} else if (u.indexOf('iPad') > -1) {
+
+				return "iPad!"; // iPad手机
+
+			} else if (u.indexOf('Windows Phone') > -1) {
+
+				return "Windows Phone!"; // winphone手机
+
+			} else {
+
+				return false;
+
+			}
+
+		}
+
+		// 判断用户是否在微信中打开
+
+		function isWeChat() {
+
+			// toLowerCase() 方法用于把字符串转换为小写。
+			var ua = navigator.userAgent.toLowerCase();
+
+			if (ua.indexOf('micromessenger') != -1) {
+
+				return true;
+
+			} else {
+
+				return false;
+
+			}
+
+		}
+
+		document.write("是否PC:" + isPC() + "<br/>是否移动端:" + isMobile() + "<br/>是否微信:" + isWeChat());
+	</script>
+
+</body>
+</html>

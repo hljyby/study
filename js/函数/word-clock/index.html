@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" class="w-100 h-100">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+    [v-cloak] {
+        display: none;
+    }
+
+    @font-face {
+        font-family: 'Nunito';
+        src: url('./Nunito-SemiBold.ttf');
+    }
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .family-Nunito {
+
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .inline {
+        display: inline;
+    }
+
+    .txt-justify {
+        text-align: justify;
+    }
+
+    .bgcolor-000000 {
+        background-color: #000000;
+    }
+
+    .color-ffffff {
+        color: #ffffff;
+    }
+
+    .color-17b9bb {
+        color: #17b9bb;
+    }
+
+    .transition-05 {
+        transition: 0.5s;
+        transition-timing-function:cubic-bezier(0.2, 0.9, 0.3, 1.3);
+    }
+    .txt-center {
+        text-align: center;
+    }
+    .por {
+        position: relative;
+    }
+    .poa {
+        position: absolute;
+    }
+
+    .left-50 {
+        left: 50%;
+    }
+
+    .top-50 {
+        top: 50%;
+    }
+
+    .translate-50-50 {
+        transform: translate(-50%, -50%);
+    }
+
+    .origin-left-center {
+        transform-origin: left center;
+    }
+
+    .pad-left_40 {
+        padding-left: 40px;
+    }
+
+    .pad-left_90 {
+        padding-left: 90px;
+    }
+
+    .pad-left_160 {
+        padding-left: 160px;
+    }
+
+    .pad-left_210 {
+        padding-left: 210px;
+    }
+
+    .pad-left_280 {
+        padding-left: 280px;
+    }
+
+    .pad-left_350 {
+        padding-left: 350px;
+    }
+
+    .txt-nowrap {
+        white-space: nowrap;
+    }
+    .scale-09{
+        transform: scale(.9);
+    }
+    .w-100{
+        width: 100%;
+    }
+    .h-100{
+        height: 100%;
+    }
+</style>
+<body class="bgcolor-000000 family-Nunito w-100 h-100">
+<div id="app" class="txt-justify color-ffffff por w-100 h-100 scale-09" v-cloak>
+    <p class="inline" :class="{'poa left-50 top-50 translate-50-50':change}">
+        <template v-for="(item,index) in 12">
+            <span class="transition-05"
+                  :style="{'transform': change === true ? 'rotate('+(index-dateObj.month+1)*360/12 +'deg)' : 'none'}"
+                  :class="{'color-17b9bb':dateObj.month === index+1, 'poa origin-left-center txt-nowrap pad-left_40':change }"> {{chineseChange(index+1)}}月 </span>
+        </template>
+    </p>
+    <p class="inline" :class="{'poa left-50 top-50 translate-50-50':change}">
+        <template v-for="(item,index) in 31">
+            <span class="transition-05"
+                  :style="{'transform': change === true ? 'rotate('+(index-dateObj.day+1)*360/31+'deg)' : 'none'}"
+                  :class="{'color-17b9bb':dateObj.day === index+1, 'poa origin-left-center txt-nowrap pad-left_90':change }"> {{chineseChange(index+1)}}日 </span>
+        </template>
+    </p>
+    <p class="inline" :class="{'poa left-50 top-50 translate-50-50':change}">
+        <template v-for="(item,index) in 7">
+            <span class="transition-05"
+                  :style="{'transform': change === true ? 'rotate('+(index-dateObj.week+1)*360/7+'deg)' : 'none'}"
+                  :class="{'color-17b9bb':dateObj.week === index+1, 'poa origin-left-center txt-nowrap pad-left_160':change }"> 星期{{chineseChange(index+1)==='七'?'日':chineseChange(index+1)}} </span>
+        </template>
+    </p>
+    <p class="inline" :class="{'poa left-50 top-50 translate-50-50':change}">
+        <template v-for="(item,index) in 24">
+            <span class="transition-05"
+                  :style="{'transform': change === true ? 'rotate('+(index-dateObj.hour+1)*360/24+'deg)' : 'none'}"
+                  :class="{'color-17b9bb':dateObj.hour === index+1, 'poa origin-left-center txt-nowrap pad-left_210':change }"> {{chineseChange(index+1)}}时 </span>
+        </template>
+    </p>
+    <p class="inline" :class="{'poa left-50 top-50 translate-50-50':change}">
+        <template v-for="(item,index) in 60">
+            <span class="transition-05"
+                  :style="{'transform': change === true ? 'rotate('+(index-dateObj.minute)*360/60+'deg)' : 'none'}"
+                  :class="{'color-17b9bb':dateObj.minute === index, 'poa origin-left-center txt-nowrap pad-left_280':change }"> {{chineseChange(index)}}分 </span>
+        </template>
+    </p>
+    <p class="inline" :class="{'poa left-50 top-50 translate-50-50':change}">
+        <template v-for="(item,index) in 60">
+            <span class="transition-05"
+                  :style="{'transform': change === true ? 'rotate('+(index-dateObj.second)*360/60+'deg)' : 'none'}"
+                  :class="{'color-17b9bb':dateObj.second === index, 'poa origin-left-center txt-nowrap pad-left_350':change }"> {{chineseChange(index)}}秒 </span>
+        </template>
+    </p>
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            change: true,
+            dateObj: {}
+        },
+        methods: {
+            chineseChange(num) {
+                const numArray = String(num).split('');
+                switch (numArray.length) {
+                    case 1:
+                        return chinese(numArray[0]);
+                    case 2:
+                        if (numArray[0] === '1' && numArray[1] === '0') {
+                            return '十';
+                        }
+                        if (numArray[0] === '1') {
+                            return '十' + chinese(numArray[1]);
+                        }
+                        if (numArray[1] === '0') {
+                            return chinese(numArray[0]) + '十';
+                        } else {
+                            return chinese(numArray[0]) + '十' + chinese(numArray[1]);
+                        }
+                }
+
+                function chinese(n) {
+                    n = Number(n);
+                    switch (n) {
+                        case 0:
+                            return '零';
+                        case 1:
+                            return '一';
+                        case 2:
+                            return '二';
+                        case 3:
+                            return '三';
+                        case 4:
+                            return '四';
+                        case 5:
+                            return '五';
+                        case 6:
+                            return '六';
+                        case 7:
+                            return '七';
+                        case 8:
+                            return '八';
+                        case 9:
+                            return '九';
+                    }
+                }
+            },
+            date() {
+                const date = new Date();
+                const dateObj = {
+                    month: date.getMonth() + 1,
+                    day: date.getDate(),
+                    week: date.getDay(),
+                    hour: date.getHours(),
+                    minute: date.getMinutes(),
+                    second: date.getSeconds()
+                };
+                this.dateObj = dateObj;
+            }
+        },
+        created() {
+            setInterval(_ => {
+                this.date();
+            });
+            setInterval(_=>{
+                this.change = !this.change;
+            },60000)
+        }
+    });
+</script>
+</body>
+</html>

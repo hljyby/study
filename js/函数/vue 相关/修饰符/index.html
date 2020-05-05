@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件修饰符&按键修饰符</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ol>
+            <li>@click.stop 组织冒泡事件
+                <div @click="alert('外侧')"
+                    style="width: 100px;height: 100px;background-color: #4dff00;overflow: hidden;">
+                    <div @click.stop="alert('内侧')"
+                        style="width: 60px;height: 60px;background-color: #00fff7;margin: 20px;"></div>
+                </div>
+            </li>
+            <li>@submit.prevent 提交事件不再重载页面
+                <form @submit.prevent="console.log('提交事件不再重载页面')">
+                    <button type="submit">提交</button>
+                </form>
+            </li>
+            <li>@submit.prevent 只有修饰符
+                <form @submit.prevent>
+                    <button type="submit">提交</button>
+                </form>
+            </li>
+            <li>@click.once 事件只能点击一次
+                <div><button @click.once="alert('once')">Click</button></div>
+            </li>
+            <li>@click.self 只当事件在该元素本身（而不是子元素）触发时触发回调
+                <div @click.self="alert('只当事件在该元素本身（而不是子元素）触发时触发回调')" style="width: 100px;border:1px solid;">
+                    <div style="text-align: center;width: 50px;background-color: #077557;">Click</div>
+                </div>
+            </li>
+            <li>@click.capture 添加事件侦听器时使用事件捕获模式(优先执行带修饰符的click事件，从外到内)
+                <div>
+                    <div @click.capture="console.log('0')"
+                        style="position: relative; display: inline-block; width: 200px;height: 200px;background-color: #077557;overflow: hidden;">
+                        <p style="position: absolute;margin: 0;color: #fff;text-align: center;width: 100%;">
+                            (0,0-1,0-1-1,0-1-1-1)<br>(0,0-1,0-1-2)</p>
+                        <div @click.capture="console.log('0-1')"
+                            style="width: 150px;height: 150px;background-color: #16df16;overflow: hidden; margin: 25px">
+                            <div @click.capture="console.log('0-1-1')"
+                                style="width: 100px;height: 100px;background-color: #3e16df;overflow: hidden; margin: 0 auto;">
+                                <div @click.capture="console.log('0-1-1-1')"
+                                    style="width: 30px;height: 30px;background-color: #1b1145;overflow: hidden; margin:35px;">
+                                </div>
+                            </div>
+                            <div @click.capture="console.log('0-1-2')"
+                                style="width: 30px;height: 30px;background-color: #7f799a;overflow: hidden; margin: 10px auto;">
+                            </div>
+                        </div>
+                        <div @click="alert('定位的冒泡事件与位置无关，与DOM的层级有关')"
+                            style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);width: 10px;height: 120px;background-color: #fff;">
+                        </div>
+                    </div>
+                    <div @click="console.log('0')"
+                        style="position: relative;display: inline-block; width: 200px;height: 200px;background-color: #077557;overflow: hidden;">
+                        <p style="position: absolute;margin: 0;color: #fff;text-align: center;width: 100%;">
+                            (0-1-1-1,0-1-1,0-1,0)<br>(0-1-2,0-1,0)</p>
+                        <div @click="console.log('0-1')"
+                            style="width: 150px;height: 150px;background-color: #16df16;overflow: hidden; margin: 25px">
+                            <div @click="console.log('0-1-1')"
+                                style="width: 100px;height: 100px;background-color: #3e16df;overflow: hidden; margin: 0 auto;">
+                                <div @click="console.log('0-1-1-1')"
+                                    style="width: 30px;height: 30px;background-color: #1b1145;overflow: hidden; margin:35px;">
+                                </div>
+                            </div>
+                            <div @click="console.log('0-1-2')"
+                                style="width: 30px;height: 30px;background-color: #7f799a;overflow: hidden; margin: 10px auto;">
+                            </div>
+                        </div>
+                        <div @click="alert('定位的冒泡事件与位置无关，与DOM的层级有关')"
+                            style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);width: 10px;height: 120px;background-color: #fff;">
+                        </div>
+                    </div>
+                    <div @click="console.log('0')"
+                        style="position: relative;display: inline-block; width: 200px;height: 200px;background-color: #077557;overflow: hidden;">
+                        <p style="position: absolute;margin: 0;color: #fff;text-align: center;width: 100%;">
+                            (0-1,0-1-1-1,0-1-1,0)<br>(0-1,0-1-2,0)</p>
+                        <div @click.capture="console.log('0-1')"
+                            style="width: 150px;height: 150px;background-color: #16df16;overflow: hidden; margin: 25px">
+                            <div @click="console.log('0-1-1')"
+                                style="width: 100px;height: 100px;background-color: #3e16df;overflow: hidden; margin: 0 auto;">
+                                <div @click.capture="console.log('0-1-1-1')"
+                                    style="width: 30px;height: 30px;background-color: #1b1145;overflow: hidden; margin:35px;">
+                                </div>
+                            </div>
+                            <div @click="console.log('0-1-2')"
+                                style="width: 30px;height: 30px;background-color: #7f799a;overflow: hidden; margin: 10px auto;">
+                            </div>
+                        </div>
+                        <div @click="alert('定位的冒泡事件与位置无关，与DOM的层级有关')"
+                            style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);width: 10px;height: 120px;background-color: #fff;">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>@keyup.13 监听回车
+                <div><input @keyup.13="alert('回车键')"></div>
+            </li>
+            <li>@keyup.alt.67 监听 Alt + C
+                <div><input @keyup.alt.67="alert('Alt + C 键')"></div>
+            </li>
+            <li>@click.ctrl 监听 Ctrl + ClickLeft
+                <div @click.ctrl="alert('Ctrl + ClickLeft 键')"
+                    style="width: 200px;text-align: center;border: 1px solid;">监听Ctrl + ClickLeft</div>
+            </li>
+            <li>全部按键修饰符：
+                <div style="margin: 2px 0;">
+                    <b v-for="i in mark" style="border:1px solid;padding: 1px 6px;margin: 2px;box-sizing: border-box;">{{i}}</b>
+                </div>
+            </li>
+            <li>v-model.number 输入时转为 Number 类型：
+                <div><input v-model.number="age1" value="123" type="number" name="" id=""> age1:{{typeof age1}}</div>
+                <div><input v-model="age2" type="number" name="" id=""> age2:{{typeof age2}}</div>
+            </li>
+            <li>v-model.trim 输入时过滤用户输入的首尾空格：
+                <div><input v-model.trim="text"> {{text.length}}</div>
+            </li>
+            <li>v-model.lazy 失去焦点时msg才会改变
+                <div><input v-model.lazy="msg1"> {{msg1}}</div>
+                <div><input v-model="msg2"> {{msg2}}</div>
+            </li>
+            <li>修饰符可以串联，例：v-model.lazy.trim
+                <div><input v-model.lazy.trim="msg3"> {{msg3}}->{{msg3.length}}</div>
+            </li>
+        </ol>
+
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                mark: ['.enter', '.tab', '.delete (捕获 "删除" 和 "退格" 键)', '.esc', '.space', '.up', '.down',
+                    '.left', '.right', '.ctrl', '.alt', '.shift', '.meta'
+                ],
+                age1: '123',
+                age2: '456',
+                text: '  ProsperLee  ', // 14 -> 10
+                msg1: 'Welcome ProsperLee!!!',
+                msg2: 'Welcome ProsperLee!!!',
+                msg3: ' ProsperLee '
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box">
+        <button id="btn1">Button_01</button>
+        <div id="btn01" style="width: 200px;height: 100px;background: red;overflow: hidden;">
+            <div id="btn02" style="width: 100px;height: 50px;background: green;margin: 20px;"></div>
+        </div>
+        <a href="http://www.lprosper.com" id="aid">lprosper</a>
+    </div>
+</body>
+<script>
+    // 事件对象
+    // 在触发DOM事件的时候都会产生一个对象
+    // 事件对象event
+    // type 获取事件类型
+    // target 获取事件目标
+    // stopPropagation(); 阻止事件冒泡
+    // preventDefault(); 阻止时间默认行为
+    var btn1 = document.getElementById('btn1');
+    btn1.addEventListener('click', demo)
+
+    function demo(event) {
+        console.log(event);
+    }
+
+    var btn01 = document.getElementById('btn01');
+    var btn02 = document.getElementById('btn02');
+    
+    // 结果输出：btn01
+    btn01.addEventListener('click', function (e) {
+        e.stopPropagation();
+        alert('btn01')
+    }, true)
+    btn02.addEventListener('click', function (e) {
+        alert('btn02')
+    })
+
+    // 结果输出：阻止了冒泡事件
+    // btn01.addEventListener('click', function (e) {
+    //     alert('btn01')
+    // })
+    // btn02.addEventListener('click', function (e) {
+    //     e.stopPropagation();
+    //     alert('btn02')
+    // })
+
+
+    // 组织元素默认事件
+    var aid = document.getElementById('aid');
+    aid.addEventListener('click',function(e){
+        e.preventDefault();
+        alert('123')
+    })
+
+</script>
+
+</html>

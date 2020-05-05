@@ -1,0 +1,2 @@
+sass依赖 Ruby
+window需要安装Ruby

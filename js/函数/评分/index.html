@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>评分</title>
+</head>
+<style>
+#score1 i {
+    vertical-align: middle;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: url('data:image/png;base64,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') no-repeat center center;
+    background-size: cover;
+}
+
+#score1 i.on {
+    background-image: url('data:image/png;base64,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');
+}
+</style>
+
+<body>
+    <span id="score1">
+        <i></i><i></i><i></i><i></i><i></i>
+    </span>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+    /**
+     * [score 评分]
+     * @param  {[String]} scoreId   [评分Id]
+     * @param  {[String]} extentStr [需要变成实体的星星的样式class]
+     * @return {[Number]}           [返回分数]
+     */
+    function score(scoreId, extentStr) {
+
+        scoreId = "#" + scoreId;
+
+        $(scoreId + " i").hover(function() { // 鼠标移入，未确定选择分数时
+
+            for (var i = 0; i <= $(this).index(); i++) {
+
+                $(scoreId + " i").eq(i).addClass(extentStr); // 实星星
+
+            }
+
+            $(scoreId + " i").click(function() { // 点击评分，确定好分数后无法更改
+
+                for (var i = 0; i <= $(this).index(); i++) {
+
+                    $(scoreId + " i").eq(i).addClass(extentStr);
+
+                }
+                 
+                $(scoreId).val($(this).index()+1);          
+
+                $(scoreId + " i").unbind(); // 清除移入移出
+
+            });
+
+        }, function() { // 鼠标移出
+
+            $(scoreId + " i").removeClass(extentStr); // 描线星星
+
+        });
+
+    }
+
+    score("score1", "on");
+
+
+    </script>
+</body>
+
+</html>

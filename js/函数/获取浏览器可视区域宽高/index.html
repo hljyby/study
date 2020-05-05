@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>获取浏览器可视区域宽高</title>
+</head>
+
+<body>
+    <script>
+    /**
+     * 获取浏览器可视区域宽度
+     */
+    function getViewPortOffset() {
+        if (window.innerWidth) {
+            return {
+                w: window.innerWidth,
+                h: window.innerHeight
+            }
+        } else if (document.compatMode = "BackCompat") {
+            return {
+                w: document.body.clientWidth,
+                h: document.body.clientHeigth
+            }
+        } else {
+            return {
+                w: document.documentElement.clientWidth,
+                h: document.documentElement.clientHeight
+            }
+        }
+    }
+    console.log(getViewPortOffset());
+    </script>
+</body>
+
+</html>

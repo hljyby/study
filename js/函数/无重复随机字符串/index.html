@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>无重复随机字符串</title>
+</head>
+<body>
+	
+	<script>
+		/**
+         * 无重复随机字符串 
+         * num<62    num>=62或不传时位默认的62位
+         * @param  {[int]} num [随机字符串长度]
+         * @return {[string]}     [返回随机字符串]
+         */
+        var ranStr = function(num) {
+
+            var str = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789";
+
+            return str.split("").sort(function() { return Math.random() - 0.5 }).join("").substring(0, num);
+
+        }
+	</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue.js 组件</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 渲染 prosper-lee 但标签需要用template -->
+        <template>
+            <prosper-lee message="单标签自定义全局组件"/>
+        </template>
+        <prosper-lee message="自定义全局组件"></prosper-lee>
+        <!-- 局部组件 -->
+        <nodepart></nodepart>
+        <ul>
+            <nodepart1 val='局部组建02'></nodepart1>
+        </ul>
+        <hr>
+        <p>动态 Prop</p> 
+        <div>
+            <input v-model="msg" type="text">
+            <prosper-lee :message="msg"></prosper-lee>
+        </div>
+        <hr>
+        <ul>
+            <nodepart1 v-for="item in arr" :val='item.text'></nodepart1>
+        </ul>
+    </div>
+    <script src="./index.js"></script>
+    <script>
+        // 局部注册组件
+        var node = {
+            template: "<h1>局部组建0</h1>"
+        };
+        var node1 = {
+            props:['val'],
+            template: "<li>{{val}}</li>"
+        };
+        new Vue({
+            el: '#app',
+            components: {
+                'nodepart': node,
+                'nodepart1': node1
+            },
+            data:{
+                msg:'',
+                arr:[
+                    { text:'ProsperLee01'},
+                    { text:'ProsperLee02'},
+                    { text:'ProsperLee03'}
+                ]
+            }
+        })
+    </script>
+</body>
+
+</html>

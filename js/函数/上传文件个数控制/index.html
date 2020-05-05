@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>上传文件个数控制</title>
+</head>
+
+<body>
+	<h3>请上传[2,5]个文件</h3>
+    <form action="" enctype="multipart/form-data">
+        <input type="file" name="file" multiple="multiple" id="file" onchange="fileCountCheck(this,0,5)" />
+    </form>
+    <script>
+    /**
+     * [fileCountCheck 上传文件数量检测]
+     * @param  {[Object]} filesObj [文件对象]
+     * @param  {[Number]} minFileNum  [文件数量下限]
+     * @param  {[Number]} maxFileNum  [文件数量上限]
+     * @return {[Boolean]}          [真假]
+     */
+    function fileCountCheck(filesObj, minFileNum, maxFileNum) {
+
+        console.log(filesObj.files); // 文件对象
+
+        if (window.File && window.FileList) {
+
+            var fileCount = filesObj.files.length;
+
+            if (fileCount < minFileNum || fileCount > maxFileNum) {
+
+            	// 不符合数量的处理
+                window.alert('文件数不能小于' + minFileNum + '个，也不能超过' + maxFileNum + '个，你选择了' + fileCount + '个');
+
+                return false;
+
+            } else {
+
+            	// 符合数量的处理
+                window.alert('符合规定');
+
+                return true;
+
+            }
+
+        } else {
+
+        	// 不支持FileAPI
+            window.alert('抱歉，你的浏览器不支持FileAPI，请升级浏览器！');
+
+            return false;
+
+        }
+
+    }
+    </script>
+</body>
+
+</html>

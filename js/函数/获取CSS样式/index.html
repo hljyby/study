@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>获取css样式</title>
+</head>
+<style>
+    #box{
+        position: absolute;
+        left: 50%;
+        top: 100px;
+        background-color: #fff000;
+        color: blueviolet;
+        font-size: 2em;
+        font-weight: bolder;
+        text-align: center;
+        width: 300px;
+        height: 100px;
+        line-height: 100px;
+        font-style: italic;
+    }
+</style>
+<body>
+    <div id="box">ProsperLee</div>
+    <pre>
+        #box{
+            position: absolute;
+            left: 50%;
+            top: 100px;
+            background-color: #fff000;
+            color: blueviolet;
+            font-size: 2em;
+            font-weight: bolder;
+            text-align: center;
+            width: 300px;
+            height: 100px;
+            line-height: 100px;
+            font-style: italic;
+        }
+    </pre>
+    <script>
+        /**
+         * 获取css样式
+         * ele 元素
+         * prop 属性名
+         **/
+        function getStyle(ele, prop) {
+            if (window.getComputedStyle) {
+                return window.getComputedStyle(ele, null)[prop];
+            } else {
+                return ele.currentStyle[prop];
+            }
+        }
+        var el = document.getElementById('box');
+        console.log('position：' + getStyle(el,'position')); // absolute
+        console.log('left：' + getStyle(el,'left')); // 488.5px
+        console.log('font-size：' + getStyle(el,'font-size')); // 32px
+        console.log('font-style：' + getStyle(el,'font-style')); // italic
+        console.log('max-width：' + getStyle(el,'max-width')); // none
+        console.log('bottom：' + getStyle(el,'bottom')); // 532px
+    </script>
+</body>
+
+</html>

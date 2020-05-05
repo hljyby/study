@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>video</title>
+</head>
+<style>
+    *.videoBox {
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .videoBox {
+        position: relative;
+        margin: 0 auto;
+        width: 800px;
+    }
+
+    .progress {
+        position: relative;
+        margin-top: 10px;
+        width: 100%;
+        height: 6px;
+        background-color: #ccc;
+    }
+
+    .progress .pactive {
+        background-color: orange;
+    }
+
+    .progress .buffered {
+        background-color: aqua;
+    }
+
+    .progress .pactive,
+    .progress .buffered {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        max-width: 100%;
+        min-width: 0;
+        height: 100%;
+    }
+
+    .volume {
+        margin-top: 10px;
+        width: 50%;
+        height: 6px;
+        background-color: #ccc;
+    }
+
+    .volume .vactive {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        height: 100%;
+        background-color: orange;
+    }
+
+    .vactive::after,
+    .pactive::after {
+        content: "";
+        position: absolute;
+        right: -5px;
+        top: -5px;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        background-color: #fff000;
+    }
+    .tool{
+        position: absolute;
+        /* bottom: 0 */
+    }
+</style>
+
+<body>
+    <!-- 属性        值          描述 -->
+    <!-- autoplay	autoplay	如果出现该属性，则视频在就绪后马上播放。 -->
+    <!-- controls	controls	如果出现该属性，则向用户显示控件，比如播放按钮。 -->
+    <!-- height	    pixels	    设置视频播放器的高度。 -->
+    <!-- loop	    loop	    如果出现该属性，则当媒介文件完成播放后再次开始播放。 -->
+    <!-- preload	preload	    如果出现该属性，则视频在页面加载时进行加载，并预备播放。如果使用 "autoplay"，则忽略该属性。 -->
+    <!-- src	    url	        要播放的视频的 URL。 -->
+    <!-- width	    pixels	    设置视频播放器的宽度。 -->
+    <!-- muted	    muted	    规定视频的音频输出应该被静音。 -->
+    <!-- poster	    URL	        规定视频下载时显示的图像，或者在用户点击播放按钮前显示的图像。 -->
+    <div class="videoBox" id="videoBox">
+        <video id="video" src="https://d2zihajmogu5jn.cloudfront.net/elephantsdream/ed_hd.mp4" poster="https://d2zihajmogu5jn.cloudfront.net/elephantsdream/poster.png"
+            width="100%"></video>
+        <div class="tool">
+            <button onclick="play()">播放</button>
+            <button onclick="pause()">暂停</button>
+            <button onclick="back()">后退</button>
+            <button onclick="fast()">快进</button>
+            <button onclick="muted()">静音</button>
+            <button onclick="addVolume()">增音</button>
+            <button onclick="subVolume()">减音</button>
+            <button onclick="stop()">停止</button>
+            <button onclick="requestFullScreen()">进入全屏</button>
+            <button onclick="exitFullscreen()">退出全屏</button>
+            <p id="loading"></p>
+            <div class="volume" id="volume">
+                <div class="vactive" id="vactive"></div>
+            </div>
+            <p id="voice">{{volume*10}}</p>
+            <div class="progress" id="progress">
+                <div class="buffered" id="buffered"></div>
+                <div class="pactive" id="pactive"></div>
+            </div>
+            <p id="time">{{Math.floor(duration/60)}}:{{Math.floor(duration%60)}} /
+                {{Math.floor(currentTime/60)}}:{{Math.floor(currentTime%60)}}</p>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        window.onload = function () {
+            vm.duration = v.duration;
+
+        }
+        var vm = new Vue({
+            el: "#videoBox",
+            data: {
+                volume: "1",
+                currentTime: "0",
+                duration: "00:00"
+            }
+        })
+
+        // video盒子
+        var videoBox = document.getElementById('videoBox');
+        // 获取video媒体
+        var v = document.getElementById('video');
+        // 音量条
+        var volume = document.getElementById('volume');
+        // 音频进度条
+        var vactive = document.getElementById('vactive');
+        // 进度条
+        var progress = document.getElementById('progress');
+        // 视频进度条
+        var pactive = document.getElementById('pactive');
+        // 视频缓冲
+        var buffered = document.getElementById('buffered');
+        // loading 
+        var loading = document.getElementById('loading');
+        // 设置快进后退时间
+        var time = 1;
+
+
+        // 播放
+        function play() {
+            v.play();
+        }
+
+        // 暂停
+        function pause() {
+            v.pause();
+        }
+
+        // 快进
+        function fast() {
+            v.currentTime += time;
+        }
+
+        // 后退
+        function back() {
+            v.currentTime -= time;
+        }
+
+        // 静音
+        function muted() {
+            v.muted = !v.muted;
+        }
+
+        // 提高音量(最高为1) 小数误差
+        function addVolume() {
+            v.volume = parseInt(v.volume * 10) >= 10 ? 1 : (parseInt(v.volume * 10) + 1) / 10;
+            vactive.style.width = v.volume * volume.getBoundingClientRect().width + "px";
+            vm.volume = v.volume;
+        }
+
+        // 减小音量(最高为1) 小数误差
+        function subVolume() {
+            v.volume = parseInt(v.volume * 10) > 0 ? (parseInt(v.volume * 10) - 1) / 10 : 0;
+            vactive.style.width = v.volume * volume.getBoundingClientRect().width + "px";
+            vm.volume = v.volume;
+        }
+
+        // 停止
+        function stop() {
+            v.currentTime = 0;
+            v.pause();
+            pactive.style.width = 0;
+        }
+
+        // 进度条点击
+        progress.onclick = function (event) {
+            var e = window.event || event;
+            v.currentTime = (e.clientX - progress.getBoundingClientRect().left) / progress.getBoundingClientRect()
+                .width *
+                v.duration;
+            pactive.style.width = e.clientX - progress.getBoundingClientRect().left +
+                "px";
+            vm.currentTime = v.currentTime;
+        }
+
+
+        // 鼠标按下滑动抬起离开
+        progress.addEventListener("mousedown", function (event) { // 按下
+            var move = function (event) {
+                var e = window.event || event;
+                v.currentTime = (e.clientX - progress.getBoundingClientRect().left) / progress.getBoundingClientRect()
+                    .width * v.duration;
+                if (v.currentTime >= v.duration) {
+                    pactive.style.width = "100%";
+                } else {
+                    pactive.style.width = e.clientX - progress.getBoundingClientRect()
+                        .left + "px";
+                }
+                vm.currentTime = v.currentTime;
+            }
+            document.addEventListener('mousemove', move, false); // 滑动
+            document.addEventListener('mouseup', function (event) { // 抬起
+                document.removeEventListener('mousemove', move);
+            }, false)
+        }, false)
+
+
+        // 音频条点击
+        volume.onclick = function (event) {
+            var e = window.event || event;
+            v.volume = parseInt((e.clientX - volume.getBoundingClientRect().left) / volume.getBoundingClientRect()
+                .width *
+                10) / 10;
+            vactive.style.width = (e.clientX - volume.getBoundingClientRect().left) +
+                "px";
+            vm.volume = v.volume;
+        }
+
+        // 鼠标按下滑动抬起离开
+        volume.addEventListener("mousedown", function (event) { // 按下
+            var move = function (event) {
+                var e = window.event || event;
+                if ((e.clientX - volume.getBoundingClientRect().left) <= 0) {
+                    v.volume = 0;
+                    vactive.style.width = "0%";
+                } else if ((e.clientX - volume.getBoundingClientRect().left) >= volume.getBoundingClientRect()
+                    .width) {
+                    v.volume = 1;
+                    vactive.style.width = "100%";
+                } else {
+                    v.volume = parseInt((e.clientX - volume.getBoundingClientRect().left) / volume.getBoundingClientRect()
+                        .width *
+                        10) / 10;
+                    vactive.style.width = (e.clientX - volume.getBoundingClientRect()
+                        .left) + "px";
+                }
+                vm.volume = v.volume;
+            }
+            document.addEventListener('mousemove', move, false) // 滑动
+            document.addEventListener('mouseup', function (event) { // 抬起
+                document.removeEventListener('mousemove', move);
+            }, false)
+        }, false)
+
+        // // 监听播放        
+        // var timer;
+        // v.onplay = function () {
+        //     timer = setInterval(function () {
+
+        //         for(var i = 0; i<v.buffered.length;i++){
+        //             console.log("Start:"+ v.buffered.start(i) + "-End:" + v.buffered.end(i))
+        //         }
+
+        //         if(1){
+        //             buffered.style.width = (v.buffered.end(v.buffered.length-1) / v.duration * progress.getBoundingClientRect().width) + "px";
+        //         }else{
+        //             buffered.style.width = (v.buffered.start(0) / v.duration * progress.getBoundingClientRect().width) + "px";
+        //         }
+
+        //         pactive.style.width = (v.currentTime / v.duration *
+        //             progress.getBoundingClientRect().width) + "px";
+        //         vm.currentTime = v.currentTime;
+        //     }, 10)
+        // }
+
+
+        // // 监听暂停
+        // v.onpause = function () {
+        //     v.currentTime == v.duration ? ((pactive.style.width = "100%") &&
+        //         clearInterval(timer)) : clearInterval(timer);
+        // }
+
+        // v.onerror = function(er) {
+        //     alert("Error! 视频出错了!!!");
+        //     console.log(er);
+        // }
+
+
+        //进入全屏
+        function requestFullScreen() {
+            var request = videoBox;
+            if (request.requestFullscreen) {
+                request.requestFullscreen();
+            } else if (request.mozRequestFullScreen) {
+                request.mozRequestFullScreen();
+            } else if (request.webkitRequestFullScreen) {
+                request.webkitRequestFullScreen();
+            }
+            v.style.width = "100%";
+        }
+
+        //退出全屏
+        function exitFullscreen() {
+            var exit = document;
+            if (exit.exitFullscreen) {
+                exit.exitFullscreen();
+            } else if (exit.mozCancelFullScreen) {
+                exit.mozCancelFullScreen();
+            } else if (exit.webkitCancelFullScreen) {
+                exit.webkitCancelFullScreen();
+            }
+            v.style.width = "600px";
+        }
+    </script>
+</body>
+
+</html>

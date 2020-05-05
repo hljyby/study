@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>统计字符串中字符出现的次数</title>
+</head>
+
+<body>
+    <script>
+        var str = "ProsperLee";
+
+        // || 返回第一个为真的表达式的值,若全为假则返回最后一个表达式的值
+        // && 返回第一个为假的表达式的值,若全为真则返回最后一个表达式的值
+        String.prototype.charCount = function(){
+            var json = {};
+            for (var i = 0, l = this.length; i < l; i++) {
+                json[this[i]] = json[this[i]] + 1 || 1;
+            }
+            // console.log(json);
+            return json;
+        }
+                
+        str.charCount();
+
+    </script>
+</body>
+
+</html>

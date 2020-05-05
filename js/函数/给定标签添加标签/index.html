@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>给定标签添加标签</title>
+</head>
+<style>
+#havetags span,
+#addtags span {
+    display: inline-block;
+    padding: 0 0 0 10px;
+    margin: 2px 5px;
+    border: 1px solid #000;
+}
+
+#havetags span::after,
+#addtags span::after {
+    content: "+";
+    display: inline-block;
+    padding: 0 10px;
+    background-color: #00ffff;
+    margin-left: 5px;
+}
+
+#addtags span::after {
+    content: "x";
+}
+</style>
+
+<body>
+    <h3>haveTags</h3>
+    <div id="havetags"></div>
+    <hr />
+    <h3>addTags</h3>
+    <div id="addtags"></div>
+    <button id="btn">返回的数组</button>
+    <script>
+    // 拥有的标签
+    var haveArr = ["HTML", "CSS", "JavaScript", "jQuery", "Vue", "Bootstrap"];
+
+    // 添加的标签
+    var addArr = ["PHP", "MySQL"];
+
+    /**
+     * [tagsShow 展示拥有的标签]
+     * @param  {[String]} haveTagsId [展示拥有标签的HTML标签Id]
+     * @param  {[String]} addTagsId  [展示添加标签的HTML标签Id]
+     * @param  {[Array]} haveTags   [拥有标签的数组]
+     * @param  {[Array]} addTags    [添加标签的数组]
+     */
+    function tagsShow(haveTagsId, addTagsId, haveTags, addTags) {
+
+        for (var i = 0; i < haveTags.length; i++) {
+
+            document.getElementById(haveTagsId).innerHTML += "<span>" + haveTags[i] + "</span>";
+
+        }
+
+        addTag(haveTagsId, addTagsId, haveArr, addArr);
+
+        for (var i = 0; i < addTags.length; i++) {
+
+            document.getElementById(addTagsId).innerHTML += "<span>" + addTags[i] + "</span>";
+
+        }
+
+        delTag(haveTagsId, addTagsId, haveTags, addTags);
+
+    }
+
+    /**
+     * 添加标签
+     * @param  {[String]} haveTagsId [展示拥有标签的HTML标签Id]
+     * @param  {[String]} addTagsId  [展示添加标签的HTML标签Id]
+     * @param  {[Array]} haveTags   [拥有标签的数组]
+     * @param  {[Array]} addTags    [添加标签的数组]
+     */
+    function addTag(haveTagsId, addTagsId, haveTags, addTags) {
+
+        var len = document.getElementById(haveTagsId).children.length;
+
+        for (var i = 0; i < len; i++) {
+
+            document.getElementById(haveTagsId).children[i].onclick = function() {
+
+                this.remove();
+
+                addTags.push(this.innerHTML);
+
+                document.getElementById(addTagsId).innerHTML += "<span>" + this.innerHTML + "</span>";
+
+                haveTags.splice(haveTags.indexOf(this.innerHTML), 1); // 从数组中删除该元素
+
+                delTag(haveTagsId, addTagsId, haveTags, addTags);
+            }
+
+        }
+
+    }
+
+    /**
+     * 删除标签
+     * @param  {[String]} haveTagsId [展示拥有标签的HTML标签Id]
+     * @param  {[String]} addTagsId  [展示添加标签的HTML标签Id]
+     * @param  {[Array]} haveTags   [拥有标签的数组]
+     * @param  {[Array]} addTags    [添加标签的数组]
+     */
+    function delTag(haveTagsId, addTagsId, haveTags, addTags) {
+
+        var len = document.getElementById(addTagsId).children.length;
+
+        for (var i = 0; i < len; i++) {
+
+            document.getElementById(addTagsId).children[i].onclick = function() {
+
+                this.remove();
+
+                haveTags.push(this.innerHTML);
+
+                document.getElementById(haveTagsId).innerHTML += "<span>" + this.innerHTML + "</span>";
+
+                addTags.splice(addTags.indexOf(this.innerHTML), 1); // 从数组中删除该元素
+
+                addTag(haveTagsId, addTagsId, haveTags, addTags);
+
+            }
+
+        }
+
+    }
+
+    // 展示标签
+    tagsShow('havetags', 'addtags', haveArr, addArr);
+
+    // 最终数组
+    document.getElementById("btn").onclick = function(){
+ 
+    	console.log(haveArr);
+ 
+    	console.log(addArr);
+ 
+    }
+
+    </script>
+</body>
+
+</html>

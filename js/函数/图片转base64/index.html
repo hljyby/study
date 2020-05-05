@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图片转base64</title>
+</head>
+<style>
+input {
+    margin: 5px 0;
+}
+
+#box {
+    width: 500px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #000;
+}
+
+textarea {
+    margin: 10px 0;
+    display: block;
+    width: 500px;
+    height: 309px;
+    padding: 10px;
+    border: 1px solid #000;
+    text-align: justify;
+    resize: none;
+}
+
+img {
+    max-width: 500px;
+    max-height: 407px;
+    display: none;
+    padding: 10px;
+    border: 1px solid orange;
+    margin: 0 0 0 60px;
+}
+</style>
+
+<body>
+    <h3>图片转base64</h3>
+    <p>部分网络图片地址无法转换，可以下载到本地在进行转换</p>
+    <div style="display: flex;justify-content: flex-start;">
+        <div>
+            <div id="box">
+                <div>
+                    <div>
+                        <!-- 网络图片 -->
+                        <input type="text" placeholder="http://" id="webImgUrl">
+                        <!-- 转化 -->
+                        <input type="button" value="base64" onclick="getBase64(document.getElementById('webImgUrl').value)" />
+                    </div>
+                    <div>
+                        <!-- 上传文件 -->
+                        <input type="file" id="file" onchange="checkImg(this.id)">
+                    </div>
+                </div>
+                <div>
+                    <!-- 复制 -->
+                    <input type="button" value="复制" onclick="copy()" />
+                    <br>
+                    <!-- 清空 -->
+                    <input type="button" value="清空" onclick="document.getElementById('base64text').value=''" />
+                </div>
+            </div>
+            <!-- base64 -->
+            <textarea id="base64text" placeholder="Base64编码说明
+                Base64编码要求把3个8位字节（3*8=24）转化为4个6位的字节（4*6=24），之后在6位的前面补两个0，形成8位一个字节的形式。 如果剩下的字符不足3个字节，则用0填充，输出字符使用'='，因此编码后输出的文本末尾可能会出现1或2个'='。
+                为了保证所输出的编码位可读字符，Base64制定了一个编码表，以便进行统一转换。编码表的大小为2^6=64，这也是Base64名称的由来。" readonly></textarea>
+            <!-- 大小 -->
+            <p>图片大小：<span id="size" style="color: red">0</span>KB</p>
+        </div>
+        <div>
+            <img src="" alt="By.ProsperLee" id="imgshow">
+        </div>
+    </div>
+    <script>
+    /**
+     * [checkImg 检查是否为图片]
+     * @param  {[String]} fileId [input file 的 Id]
+     */
+    function checkImg(fileId) {
+        
+        var fileType = document.getElementById(fileId).files[0].type;
+        
+        if (fileType.indexOf("image/") == -1) {
+        
+            alert("仅支持图片转码");
+        
+            document.getElementById(fileId).value = "";
+        
+        } else {
+
+            getBase64(getFileUrl(fileId));
+        
+        }
+    
+    }
+
+    /**
+     * 获取上传文件地址函数
+     * @param  {[String]} sourceId [input file 的 Id]
+     * @return {[String]}          [文件地址url]
+     */
+    function getFileUrl(sourceId) {
+    
+        var url;
+    
+        var elUpload = document.getElementById(sourceId);
+    
+        if (navigator.userAgent.indexOf("MSIE") >= 1) { // IE下的地址
+    
+            url = elUpload.value;
+    
+        } else if (navigator.userAgent.indexOf("Firefox") > 0) { // Firefox下的地址
+    
+            url = window.URL.createObjectURL(elUpload.files.item(0));
+    
+        } else if (navigator.userAgent.indexOf("Chrome") > 0) { // Chrome下的地址
+    
+            url = window.URL.createObjectURL(elUpload.files.item(0));
+    
+        }
+    
+        return url;
+    
+    }
+
+    /**
+     * [getBase64 转换成base64]
+     * @param  {[String]} imgUrl [图片地址]
+     */
+    function getBase64(imgUrl) {
+    
+        window.URL = window.URL || window.webkitURL;
+    
+        var xhr = new XMLHttpRequest();
+    
+        xhr.open("get", imgUrl, true);
+    
+        // 返回的数据类型
+        xhr.responseType = "blob";
+
+        xhr.onload = function() {
+    
+            if (this.status == 200) {
+    
+                // 得到一个blob对象
+                var blob = this.response;
+    
+                // 输出图片大小
+                document.getElementById('size').innerHTML = blob.size / 1024;
+    
+                // 文件读取
+                let fileReader = new FileReader();
+    
+                fileReader.onloadend = function(e) { // onloadend 当读取操作完成时调用,不管是成功还是失败
+    
+                    let base64 = e.target.result;
+    
+                    // 展示
+                    document.getElementById('base64text').value = base64;
+                    document.getElementById('imgshow').style.display = "inline-block";
+                    document.getElementById('imgshow').src = base64;
+    
+                };
+    
+                fileReader.readAsDataURL(blob); // 异步读取文件内容，结果用data:url的字符串形式表示
+    
+            }
+    
+        }
+    
+        xhr.send();
+    
+    }
+
+    /**
+     * [copy 复制]
+     */
+    function copy() {
+    
+        var copy = document.getElementById("base64text");
+    
+        copy.select(); // 选择对象 
+    
+        document.execCommand("Copy"); // 执行浏览器复制命令 
+    
+        alert("已复制，可贴粘！"); 
+    
+    }
+    
+    </script>
+</body>
+
+</html>

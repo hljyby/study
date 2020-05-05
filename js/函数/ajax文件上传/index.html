@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ajax文件上传</title>
+</head>
+
+<body>
+    
+    <form action="">
+    
+        <input type="file" id="file1" name="">
+    
+        <br>
+    
+        <input type="file" id="file2" name="">
+    
+        <br>
+    
+        <input type="button" value="保存">
+    
+    </form>
+    
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+
+	    $("input[type='button']").on('click', upfile);
+
+	    /**
+	     * [upfile 文件上传]
+	     * @return {[Object]} [成功回调]
+	     */
+	    function upfile() {
+	        
+	        var formData = new FormData();
+
+	        formData.append("接收字段1", document.getElementById('file1').files[0]);
+	        // console.log(document.getElementById('file1').files[0]);
+	        
+	        formData.append("接收字段2", document.getElementById('file2').files[0]);
+	        // console.log(document.getElementById('file2').files[0]);
+
+	        $.ajax({
+
+	            url: '接口地址url',
+
+	            type: 'POST',
+
+	            data: formData, // 上传formdata封装的数据包
+
+	            dataType: 'JSON',
+
+	            cache: false, // 不缓存
+
+	            processData: false, // jQuery不要去处理发送的数据
+
+	            contentType: false, // jQuery不要去设置Content-Type请求头
+
+	            success: function(data) { // 成功回调
+
+	                console.log(data); 
+
+	            }
+
+	        });
+	    
+	    }
+
+    </script>
+
+</body>
+
+</html>

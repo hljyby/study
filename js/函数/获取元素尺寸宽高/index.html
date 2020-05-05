@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>获取元素尺寸宽高</title>
+</head>
+	<style>
+		#div{
+			background-color: #00ff00;
+			width: 60px;
+			height: 60px;
+			padding: 20px;
+			margin: 20px;
+			border: 20px solid #00ffff;
+		}
+	</style>
+<body>
+	
+	<div id="div">Prosper</div>
+
+    <script>
+    /**
+     * 获取元素尺寸宽高(不包含margin)
+     */
+    Element.prototype.getElementOffset = function () {
+        var objData = this.getBoundingClientRect();
+        if (objData.width) {
+            return {
+                w: objData.width,
+                h: objData.height
+            }
+        } else {
+            return {
+                w: objData.right - objData.left,
+                h: objData.top - objData.bottom
+            }
+        }
+    }
+    console.log(document.getElementById('div').getElementOffset());
+    </script>
+</body>
+
+</html>

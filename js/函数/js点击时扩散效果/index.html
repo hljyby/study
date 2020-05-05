@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>js点击时扩散效果</title>
+</head>
+<style>
+p {
+    margin: 0;
+    position: relative;
+    padding: 60px 30px;
+    background-color: orange;
+    color: #fff;
+    width: 200px;
+    overflow: hidden;
+    text-align: center;
+    border: 20px solid #000;
+}
+
+i {
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+}
+</style>
+
+<body>
+    <p><i></i></p>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+    (function() {
+        var key = true;
+        $("p").click(function(event) {
+            var e = event || window.event;
+            if (key) {
+                key = false;
+                var scale = 0;
+                var a = 0.8;
+                var timer = setInterval(function() {
+                    if (scale >= 1 || a <= 0) {
+                        scale = 0;
+                        a = 0.8;
+                        clearInterval(timer);
+                        key = true;
+                    }
+                    $("i").css({
+                        "left": e.pageX - 8 - 20,
+                        "top": e.pageY - 8 - 20,
+                        "transform": "translate(-50%,-50%) scale(" + scale + ")",
+                        "background-color": "rgba(225,225,225," + a + ")"
+                    });
+                    scale += 0.01;
+                    a -= 0.008;
+                }, 10)
+            }
+        })
+    }())
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>localStorage存储</title>
+</head>
+
+<body>
+    <!-- 
+
+        存储上限限制：不同的浏览器存储的上限也不一样，但大多数浏览器把上限限制在5MB以下。
+
+        localStorage与sessionStorage的区别:就是localStorage属于永久性存储，而sessionStorage属于当会话结束的时候，sessionStorage中的键值对会被清空
+
+        关闭浏览器后，再打开仍有数据
+
+        清除缓存加载后仍有数据
+
+        同网络地址页面均能得到数据
+
+     -->
+    <form action="">
+        用户名：
+        <input type="text" id="username" value="" /> 密码：
+        <input type="password" id="userpassword" value="" />
+        <input type="checkbox" id="remember" onclick="rememberValue(this)">
+        <label for="remember">记住账号密码</label>
+    </form>
+
+    <script>
+        // localStorage使用示例
+        var username = document.getElementById("username"); // 获取input username
+        var userpwd = document.getElementById("userpassword"); // 获取input userpassword
+        var remember = document.getElementById("remember"); // 获取记住账号密码
+        // 点击复选框记住 账号、密码、复选框
+        function rememberValue() {
+            if (remember.checked == true) {
+                localStorage.setItem('user', username.value);
+                localStorage.setItem('pwd', userpwd.value);
+                localStorage.setItem('remember', remember.checked);
+            } else {
+                localStorage.removeItem("user");
+                localStorage.removeItem("pwd");
+                localStorage.removeItem("remember");
+                // localStorage.clear();// 全部删除
+            }
+        }
+        // 页面加载完毕后从localStorage里读取值并填入相应的标签内
+        window.onload = function () {
+            username.value = localStorage.getItem("user");
+            userpwd.value = localStorage.getItem("pwd");
+            remember.checked = localStorage.getItem("remember");
+        }
+    </script>
+</body>
+
+</html>

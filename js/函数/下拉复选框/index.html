@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>下拉复选框</title>
+</head>
+<style>
+div {
+    display: inline-block;
+}
+
+select {
+    min-width: 200px;
+    height: 25px;
+    border: 1px solid #000;
+}
+
+ul {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #000;
+}
+
+label {
+    display: block;
+    padding: 2px 10px;
+    white-space: nowrap;
+}
+
+ul li:hover {
+    background-color: #aabbcc;
+}
+</style>
+
+<body>
+    <div>
+        <select name="" id="lang1"></select>
+        <ul id="ck1">
+            <li>
+                <label><input type="checkbox">HTML</label>
+            </li>
+            <li>
+                <label><input type="checkbox">CSS</label>
+            </li>
+            <li>
+                <label><input type="checkbox">JavaScript</label>
+            </li>
+            <li>
+                <label><input type="checkbox">jQuery</label>
+            </li>
+            <li>
+                <label><input type="checkbox">PHP</label>
+            </li>
+            <li>
+                <label><input type="checkbox">MySQL</label>
+            </li>
+        </ul>
+    </div>
+    <hr><!--HTML结构不能变-->
+    <div>
+        <select name="" id="lang2"></select>
+        <ul id="ck2">
+            <li>
+                <label><input type="checkbox">Java</label>
+            </li>
+            <li>
+                <label><input type="checkbox">C#</label>
+            </li>
+            <li>
+                <label><input type="checkbox">C++</label>
+            </li>
+            <li>
+                <label><input type="checkbox">Pyhton</label>
+            </li>
+        </ul>
+    </div>
+    <input type="button" onclick="console.log({'tag1':tag1,'tag2':tag2,})" value="查看字段">
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+    /**
+     * [dropDownCk 下拉复选框]
+     * @param  {[String]} boxId    [父级元素id]
+     * @param  {[String]} selectId [下拉选id]
+     * @param  {[String]} hiddenId [隐藏区域id]
+     * @return {[Array]}          [description]
+     */
+    function dropDownCk(selectId,hiddenId) {
+
+        var boxId = "#" + boxId,
+            selectId = "#" + selectId,
+            hiddenId = "#" + hiddenId;
+        
+        $(hiddenId).mouseleave(function(){ // 鼠标离开隐藏复选区域
+            
+            $(this).hide();
+        
+        });
+        
+        $(selectId).click(function() { // 切换显示与隐藏
+
+            $(hiddenId).toggle();
+
+        });
+
+        var tagArr = []; // 接收复选字段数组
+
+        $(selectId).html("<option checked='true' style='display:none;'>" + "请选择项目" + "</option>");
+
+        $(hiddenId + ' label').find('input').click(function() { // 点击向数组添加元素
+
+            if ($(this).is(':checked')) {
+
+                tagArr.push($(this).parent().text());
+
+                $(selectId).html("<option checked='true' style='display:none;'>" + tagArr.join(",") + "</option>");
+
+            } else {
+
+                tagArr.splice(tagArr.indexOf($(this).parent().text()), 1); // 删除对应元素
+
+                if (tagArr.length == 0) {
+
+                    $(selectId).html("<option checked='true' style='display:none;'>" + "请选择项目" + "</option>");
+
+                } else {
+
+                    $(selectId).html("<option checked='true' style='display:none;'>" + tagArr.join(",") + "</option>");
+
+                }
+
+            }
+
+        });
+
+        return tagArr;
+    }
+
+    var tag1 = dropDownCk("lang1","ck1");
+    var tag2 = dropDownCk("lang2","ck2");
+
+    </script>
+</body>
+
+</html>

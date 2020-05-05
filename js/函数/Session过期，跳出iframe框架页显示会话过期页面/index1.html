@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Session过期，跳出iframe框架页显示会话过期页面</title>
+</head>
+<body>
+	<button id="btn">跳转www.lprosper.com</button>
+	<script>
+		document.getElementById('btn').onclick = function () {
+			if (window != top) {
+				top.location.href = "http://www.lprosper.com/";
+			} else {
+				window.location.href = "http://www.lprosper.com/";
+			}
+		}
+	</script>
+</body>
+</html>

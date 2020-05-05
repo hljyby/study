@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>无标签选项的添加标签</title>
+</head>
+<style>
+#tags span {
+    display: inline-block;
+    padding: 0 0 0 10px;
+    margin: 2px 5px;
+    border: 1px solid #000;
+}
+
+#tags span::after {
+    content: "x";
+    display: inline-block;
+    padding: 0 10px;
+    background-color: #00ffff;
+    margin-left: 5px;
+}
+</style>
+
+<body>
+    
+    <!-- input输入标签，请以英文逗号分开 -->
+    <input type="text" placeholder="请以英文逗号分开" id="tagvalue" value="Prosper,Lee,无敌,的,存在" />
+    
+    <!-- 添加标签 -->
+    <button id="addbtn">无标签选项的添加标签</button>
+    
+    <hr />
+    
+    <!-- 添加标签 -->
+    <div id="tags"></div>
+    
+    <script>
+	    var tagsStr = document.getElementById('tagvalue').value; // 含有英文逗号分割的字符串
+
+	    var arr; // 接受标签函数的返回值
+
+	    document.getElementById('addbtn').onclick = function() { arr = addTags(tagsStr, "tags") }; // 添加标签按钮
+
+	    /**
+	     * [添加删除标签]
+	     * @author ProsperLee
+	     * @param {[string]} tagsStr   [含有英文逗号分割的字符串]
+	     * @param {[string]} addTagsId [需要添加标签的HTML标签id]
+	     * @return {[array]} [含有的标签数组，可用变量接收]
+	     */
+	    function addTags(tagsStr, addTagsId) {
+
+	        var tagsArr = tagsStr.split(","); // 以英文逗号分割标签
+
+	        document.getElementById(addTagsId).innerHTML = ""; // 初始化标签展示区域，避免每次点击都append
+
+	        for (var i = 0; i < tagsArr.length; i++) {
+
+	            document.getElementById(addTagsId).innerHTML += "<span>" + tagsArr[i] + "</span>";
+
+	        }
+
+	        // 删除标签
+	        var len = document.getElementById(addTagsId).children.length;
+
+	        for (var i = 0; i < len; i++) {
+
+	            document.getElementById(addTagsId).children[i].onclick = function() {
+
+	                this.remove(); // 删除当前标签
+
+	                tagsArr.splice(tagsArr.indexOf(this.innerHTML), 1); // 从数组中删除该元素
+
+	                return tagsArr; // 点击删除后的标签数组
+
+	            };
+	       
+	        }
+
+	        return tagsArr; // 没有点击删除时的标签数组
+
+	    }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue 监听</title>
+</head>
+
+<body>
+    <div id="app">
+        <ol style="width:600px;text-align: justify;">
+            <li>computed属性的结果会被缓存，除非依赖的响应式属性变化才会重新计算。主要当作属性来使用;</li>
+            <li>watch一个对象，键是需要观察的表达式，值是对应回调函数。主要用来监听某些特定数据的变化，从而进行某些具体的业务逻辑操作；可以看作是computed和methods的结合体.</li>
+        </ol>
+        <hr>
+        <p>@keyup 监听键盘： <input type="text" placeholder="enter" @keyup="keyUpFun"></p>
+        <p>@keyup.enter 监听回车： <input type="text" placeholder="搜索" @keyup.enter="searchEnterFun($event)">
+            <span>{{searchMsg}}</span></p>
+        <hr>
+        <p>watch监听data变化： {{watchSearch.searchMsg}}</p>
+        <hr>
+        <p>computed计算属性的使用： <input type="text" v-model="msg"> {{newMsg}}</p>
+    </div>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                searchMsg: '',
+                watchSearch: {
+                    watchSearchMsg: ''
+                },
+                msg: "ProsperLee"
+            },
+            watch: {
+                msg: {
+                    handler(newName, oldName) {
+                        console.log(newName, oldName)
+                        this.watchSearch.searchMsg = '新值：' + newName + "->原值：" + oldName;
+                    },
+                    deep: true, // 代表是否深度监听，比如我们 data 里有一个obj属性
+                    immediate: true // 初始时就监听一次
+                }
+            },
+            computed: {
+                'newMsg': function () {
+                    return this.msg;
+                }
+            },
+            methods: {
+                // 监听键盘按键
+                keyUpFun(e) {
+                    console.log(e.keyCode, e.code, e)
+                },
+                // 监听回车
+                searchEnterFun(e) {
+                    console.log(e)
+                    this.searchMsg = e.target.value;
+                },
+
+            }
+        })
+    </script>
+</body>
+
+</html>

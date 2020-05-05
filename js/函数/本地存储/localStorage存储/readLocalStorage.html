@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>读取localStorage存储内容</title>
+</head>
+<body>
+    <script>
+        // 页面加载完毕后从localStorage里读取值并填入相应的标签内
+        window.onload = function () {
+            document.write("用户名："+localStorage.getItem("user")+"\n密码："+localStorage.getItem("pwd")+"\n记住"+localStorage.getItem("remember"));
+        }
+    </script>
+</body>
+</html>

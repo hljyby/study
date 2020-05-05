@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>左边导航栏与右边内容区高度保持一致的视觉解决方案</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    /* 全部 */
+    body{
+        background-color: #ccc; /* 整体背景颜色 */
+    }
+    /* 头部 */
+    header{
+        padding: 10px 260px;
+        background-color: #fff;
+        border-bottom: 5px solid #ff00ff;
+    }
+    /* 主要部分 */
+    #main{
+        width: 1200px;
+        margin: 40px auto 40px;
+        background-color: #fff; /* 主体部分为白色 */
+    }
+    #main #aside{ /* 侧边栏 */
+        float: left;
+        width: 246px;
+        height: 200px; /* 侧边栏高度与右边实际高度不同 */
+        background-color: #fff; /* 背景颜色 与主要部分相同*/
+        border-bottom: 1px solid #000; /* 方便区分 */
+    }
+    #main #right{ /* 右边内容区 */
+        background-color: #ccc; /* 设置背景与整体部分相同 */
+        width: 944px;
+        margin-left: 246px; /* 为侧边栏宽度 */
+        padding-left: 10px; /* 分割侧边栏与内容区 */
+    }
+    #right-main {
+        width: 100%;
+        height: 600px; /* 实际高度用元素来拉伸 */
+        min-height: 200px; /*让他的最小高度为侧边栏高度 保持高度一致*/
+        background-color: #fff; /* 内容去主要部分与侧边栏颜色一致 */
+    }
+    /* 底部 */
+    footer{
+        width: 1200px;
+        margin: 0 auto;
+        padding: 20px 0;
+    }
+</style>
+<body>
+    <!-- 头部 -->
+    <header>
+        <h1>我来组成头部</h1>
+    </header>
+    <!-- 主体 -->
+    <div id="main">
+        <!-- 侧边栏 -->
+        <div id="aside"></div>
+        <!-- 右侧 -->
+        <div id="right"><!-- 背景为整体颜色 -->
+            <!-- 主要内容 -->
+            <div id="right-main"></div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <footer>
+        <p>Posted by: ProsperLee</p>
+        <p>Person Website: <a href="http://www.cnblogs.com/lprosper/">H5江湖上的小白，一个孤独的侠！</a>.</p>
+    </footer>
+</body>
+</html>

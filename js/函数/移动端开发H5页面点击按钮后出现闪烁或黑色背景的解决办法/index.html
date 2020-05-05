@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>移动端开发H5页面点击按钮后出现闪烁或黑色背景的解决办法</title>
+</head>
+<style>
+	pre{
+		padding: 10px;
+		border-left: 3px solid #ccc;
+		background-color: #eee;
+	}
+</style>
+<body>
+	
+<p>H5页面在IOS端测试的时候发现，点击按钮会闪动，出现一个黑色的背景一闪而过，影响用户体验。最后通过度娘，找到解决方法： 就是给点击的元素添加一个CSS属性或者全局添加一个css。</p>
+
+<pre>
+	-webkit-tap-highlight-color:transparent;
+</pre>	
+<pre>
+	*{
+		 -webkit-tap-highlight-color:transparent;
+	 }
+</pre>	
+</body>
+</html>

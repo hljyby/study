@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    /**
+    * 移动端自适应
+    */
+    <meta name="viewport"
+          content="width=device-width,user-scalable=no,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+    // <!--content-->
+    // <!--width=device-width          可视区域的宽度，值可为数字或关键词device-width-->
+    // <!--height=device-height        可视区域的高度，值可为数字或关键词device-height-->
+    // <!--user-scalable=yes/no        是否可对页面进行缩放，no 禁止缩放-->
+    // <!--initial-scale=1.0           页面首次被显示是可视区域的缩放级别，取值1.0则页面按实际尺寸显示，无任何缩放-->
+    // <!--minimum-scale=1.0           可视区域的缩小级别-->
+    // <!--maximum-scale=1.0           可视区域的放大级别-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>rem适配</title>
+</head>
+<body>
+
+
+<script>
+    /**
+     * rem适配 iPhone5下html字号为100px
+     */
+    (function (doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 320) + 'px';
+            };
+
+        // Abort if browser does not support addEventListener
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+</script>
+</body>
+</html>

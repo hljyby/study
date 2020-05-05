@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <input type="text" id="ttsText" value="为了你我愿意热爱整个世界">
+    <button onclick="doTTS()">播放</button>
+    <script>
+    
+    function doTTS() {
+    var mess = document.getElementById('ttsText').value;
+    var msg = new SpeechSynthesisUtterance(mess);
+    msg.volume = 100;
+    msg.rate = 1;
+    msg.pitch = 1.5;
+    console.log(msg);
+    window.speechSynthesis.speak(msg);
+}
+    
+    </script>
+</body>
+</html>

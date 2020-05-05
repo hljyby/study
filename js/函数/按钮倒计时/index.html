@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>按钮倒计时</title>
+</head>
+<style>
+input[type=button] {
+    width: 150px;
+    height: 30px;
+    background-color: #ff3000;
+    border: 0;
+    border-radius: 15px;
+    color: #fff;
+}
+
+input[type=button].on {
+    background-color: #eee;
+    color: #ccc;
+    cursor: not-allowed;
+}
+</style>
+
+<body>
+    <input type="button" value="获取验证码">
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+    $("input[type='button']").click(btnCheck);
+
+    /**
+     * [btnCheck 按钮倒计时常用于获取手机短信验证码]
+     */
+    function btnCheck() {
+
+        $(this).addClass("on");
+
+        var time = 5;
+
+        $(this).attr("disabled", true);
+
+        var timer = setInterval(function() {
+
+            if (time == 0) {
+
+                clearInterval(timer);
+
+                $("input").attr("disabled", false);
+
+                $("input").val("获取验证码");
+
+                $("input").removeClass("on");
+
+            } else {
+				
+				$('input').val(time + "秒");
+                
+                time--;
+
+            }
+
+        }, 1000);
+
+    }
+    </script>
+</body>
+
+</html>

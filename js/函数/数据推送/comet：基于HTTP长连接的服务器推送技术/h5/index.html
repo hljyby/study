@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        window.onload = () => {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                // console.log('xmlhttp: ', xmlhttp);
+                xmlhttp.readyState === 3 ? console.log(xmlhttp.status === 200 ? xmlhttp.responseText : 'error') : false
+            }
+            xmlhttp.open("POST", "../server/data.php", true);
+            xmlhttp.send();
+        }
+    </script>
+</body>
+
+</html>

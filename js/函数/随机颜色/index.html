@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>随机颜色</title>
+</head>
+<body>
+
+<h1>Hello ProsperLee</h1>
+
+
+<script>
+    /**
+     * 随机颜色
+     */
+    function rancolor() {
+        var r = Math.floor(Math.random() * 256);
+        var g = Math.floor(Math.random() * 256);
+        var b = Math.floor(Math.random() * 256);
+        var a = Math.random();
+        return "rgb(" + r + ',' + g + ',' + b + ")";
+    }
+
+    document.getElementsByTagName('h1')[0].style.color = rancolor();
+</script>
+</body>
+</html>

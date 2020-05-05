@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽读取文件</title>
+</head>
+<style>
+    #app>div {
+        border: 1px solid #000;
+        width: 200px;
+        height: 200px;
+        line-height: 200px;
+        text-align: center;
+        margin: 10px auto;
+    }
+
+    #app>div:last-child {
+        border: 1px dashed #000;
+        display: none;
+    }
+
+    img {
+        object-fit: cover;
+        width: 120px;
+        height: 120px;
+        display: inline-block;
+        margin: 40px;
+    }
+</style>
+
+<body>
+    <div id="app" style="text-align: center;">
+        <div>
+            <img id="imgShow" ondragstart="return false;" src="https://dummyimage.com/120x120/000/fff" />
+        </div>
+        <div id="source">请将文件拖拽到此区域</div>
+    </div>
+    <script>
+        var source = document.getElementById('source');
+        var imgShow = document.getElementById('imgShow');
+        // 拖拽至document区域时执行
+        var timer = null;
+        document.ondragover = function () {
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                source.style.display = 'none';
+            }, 200);
+            source.style.display = 'block';
+        };
+        // 文件进入区域后提示请释放鼠标
+        source.ondragenter = function () {
+            this.innerHTML = "请释放鼠标"
+        };
+        // 只要文件不再资源区域就提示请将文件拖拽到此区域
+        source.ondragleave = function () {
+            this.innerHTML = '请将文件拖拽到此区域';
+        };
+        // 拖拽至指定区域时执行
+        source.ondragover = function () {
+            return false;
+        };
+        // 拖拽鼠标释放后
+        source.ondrop = function (ev) {
+            var files = ev.dataTransfer.files;
+            console.log(files);
+            imgShow.src = window.URL.createObjectURL(files.item(0));
+            clearTimeout(timer);
+            source.innerHTML = '拖放完毕,2s后隐藏拖放区域';
+            setTimeout(function () {
+                source.style.display = "none"
+            }, 2000)
+
+            return false;
+        };
+    </script>
+</body>
+
+</html>

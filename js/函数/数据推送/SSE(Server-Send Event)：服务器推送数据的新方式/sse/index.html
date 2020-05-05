@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    Hello World
+    <script>
+        var source;
+
+        function init() {
+            source = new EventSource('http://3w.sse:8888/data.php');
+            source.onopen = function () {
+                console.log("链接已建立", this.readyState)
+            }
+            source.onmessage = function (event) {
+                console.log("从服务器获取的实时数据", event)
+            }
+            source.onerror = function() {
+                console.log("error")
+            }
+        }
+        init();
+    </script>
+</body>
+
+</html>

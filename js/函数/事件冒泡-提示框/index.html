@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>事件冒泡-提示框</title>
+</head>
+<style>
+button {
+    width: 160px;
+    height: 30px;
+    background-color: #ff0000;
+    color: #fff;
+    border: 1px solid #000;
+}
+#prompt{
+    display: none;
+    border: 1px solid #000;
+    padding: 20px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    max-width: 600px;
+    min-width: 300px;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#prompt #prompt-content h3{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+}
+#prompt #prompt-content h3 i{
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADQklEQVRYR7WXWahPURTGf9ccZXpAUu4DkQdFxhKRMSKz0M0YQsiDojwYIykPcuNmzjw9ECFDyiwiU1GEQskcMvZd63Ace599Dveul3//vdZe33f2XtMu4KfUB/YBx4ClwCdbL6+fbsBp4GsB0MKAGxraA2A8cKIc0JsDK4C+wBSgWAS0MNsBth2YDLwpAyI1gCXAVKCi+XsIFIqAZAKwGqiSAHsCDAPO/geJrsBmoFHMx11gMHAzIiBdB2A/0CAB9g1YDCwAvuQgUhNYBYxJ7FkLzAA+aj1OQP/rAUeAVg6gK8BA4FEGEoUWV01itt+BScC6+P4kAemqATuAAQ6g1/ZFB1JIdLGTrBOz+QyMsEz7Y6uLQGSwCJjnAVoOzHHoFEvFsUCTyTugP3DS5SuNgOzHASWOq5JuvQWvjlZ+RHhuAuQZoJy/5TuxEAHtG2VRXMHhZLddyRZgUEIv0J6AMskrWQho81BgG1DJ4ekVUDuxfgHoBShmUiUrATnRPapcR4XE5/gq0NnuPoT/VxqGNgyxDPGRELgKT/DLI6A8JxDtUS4r0l1yEVAalhaZLJKXgGqE0klV0ycqZGo2qqBByUNAfeIQ0D3oFVRudVJByUqgsoH3CHr8bbAQmB+yz0IgDXyWZYcCzyXTrMt6eWQhsMdaZ9LJBquU6nqXgaYOFMVBb2tMThIhAuoFKrFJ0ejWRyOVKdT1lAHxBhTteQ+0BW67GKQRGAlsdfSBO0B7x6TU0TKkqgPosZF4mtT5CPgKznOgTcpMUARs8lz4dUvfD3G9i0Br4Dyg4IuLjruT6dKCe5f1DpeNdMPTCNQFbgDRhBy31eC6MpRWgIJSX9vYYzvRWnypOn4C1YFTdlfJvceBPDVAMaJB1tXC9eZQ2p6LE1CVO+gBeWFvB91/HvFlkHy8tA+9rxNQj99rBcUFoMDSwJFX5FsnqtbskntAOxnJ+WiPkRqL8v1fRU8+vQFqeRxMF4GWwGFH4KmANAuNVBmYjbX5MW6q94WeZiVREIrpUSMTGc60h0UGjKDJJasfMnxr7fqMKwt2Av2Aa4DqgSbeshANKYoHFSHNiqXgSQL6r7RZZk9nZUVZyhpgI6CB9Zf8AAbklp4kaj9vAAAAAElFTkSuQmCC');
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+#prompt #prompt-content p{
+    text-align: justify;
+    font-size: 16px;
+}
+</style>
+
+<body>
+    <button onclick="promptBox('prompt')">显示/隐藏 消息框</button>
+    <div id="prompt">
+        <div id="prompt-content">
+            <h3>我是标题<i onclick="$('#prompt').hide()"></i></h3>
+            <hr>
+            <p>用一辈子时间去珍藏你，我不知道够不够？当我用坦荡、虔诚、真情，甚至，袒露心怀来“奋笔疾书”这样一份真爱的时候，我知道你的爱或恨已经植入我的骨髓，并刻在了心上。当真心遇到仁心的时候，我相信才会有心心相印一说。而面对一个人华丽转身的时候，所谓的真心和仁心再次相碰，溅出的那段激烈的火花，还会不会重新燃起一份爱的承诺？而我一直想用时间的长度和宽度来验证，把一个人藏在心底到底能藏多久？</p>
+        </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+    /**
+     * [promptBox 需要点击执行显示隐藏的按钮和需要显示的内容添加停止点击冒泡事件，为document添加点击隐藏事件]
+     * @param  {[String]} boxId [显示/隐藏的消息提示框]
+     */
+    function promptBox(boxId) {
+
+        // 获取Id
+        var boxId = $("#" + boxId);
+
+        // 显示/隐藏            
+        $(boxId).toggle();
+
+        // 停止点击冒泡事件
+        var e = arguments.callee.caller.arguments[0] || event;
+
+        if (e && e.stopPropagation) {
+
+            e.stopPropagation();
+
+        } else {
+
+            window.event.cancelBubble = true;
+
+        }
+
+        // 显示/隐藏消息提示框
+        $(boxId).click(function(event) {
+
+            // 停止点击冒泡事件
+            var e = arguments.callee.caller.arguments[0] || event;
+
+            if (e && e.stopPropagation) {
+
+                e.stopPropagation();
+
+            } else {
+
+                window.event.cancelBubble = true;
+
+            }
+
+        })
+
+        // document点击隐藏事件，不需要清除冒泡事件
+        $(document).click(function() {
+
+            $(boxId).hide();
+
+        })
+
+    }
+    </script>
+</body>
+
+</html>

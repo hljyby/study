@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 var path = require('path');
+const session = require('express-session');
 
 const db = require('./config/keys').mongURI
 const users = require("./routes/api/users.js")
@@ -21,6 +22,14 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+    secret: '123456',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: true
+    }
+}))
 
 app.use(bodyParser.urlencoded({
     extended: false

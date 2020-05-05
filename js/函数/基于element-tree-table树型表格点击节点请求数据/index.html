@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>基于element-tree-table树型表格点击节点请求数据</title>
+    <link rel="stylesheet" href="./css/element-ui.css">
+</head>
+<body>
+    <div id="app">
+        <el-table :data="data">
+            <el-table-column type="index" label="#"></el-table-column>
+            <el-table-tree-column :remote="remote" prop="name" parent-key="parentId" label="NAME"></el-table-tree-column>
+            <el-table-column prop="name" label="NAME"></el-table-column>
+        </el-table>
+    </div>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.min.js"></script>
+    <script src="./js/element-ui.js"></script>
+    <script src="./js/tree-table.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: "#app",
+            data: {
+                data: []
+            },
+            methods: {
+                remote(row, callback) {
+                    var that = this;
+                    axios.get("./json/node.json", null)
+                        .then(function (response) {
+                            row.child_num = response.data.length; // 父级有几个孩子
+                            var count = row.depth+1;
+                            response.data.forEach((element)=>{ // 循环孩子
+                                // element.child_num = 1;
+                                element.depth = count; 
+                            })
+                            var len = response.data.length;
+                            for(var i = 0; i < len; i++){
+                                if(response.data[i].parentId == row.id){
+                                    response.data.unshift(0,0);
+                                    Array.prototype.splice.apply(that.data, response.data);
+                                    break;
+                                }
+                            }                         
+                            callback(that.data.filter(f => f['parentId'] == row['id']))
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                },
+                // 获取根节点
+                getParentIdData(){
+                    var that = this;
+                    axios.get("./json/data.json", null)
+                        .then(function (response) {
+                            response.data.forEach(element => {
+                                element.child_num = 1; 
+                                element.depth = 0;
+                            });
+                            that.data = response.data;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                }
+            },
+            created() {
+                this.getParentIdData();
+            },
+        })
+    </script>
+
+</body>
+
+</html>

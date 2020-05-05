@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>滚动条判断是否滑动到顶部底部</title>
+</head>
+
+<body>
+	<p style="height: 2000px;"></p>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+    /**
+     * [滚动条]
+     */
+    $(window).scroll(function() {
+
+        var scrollTop = $(this).scrollTop(); // 滚动条距离顶部的高度
+        console.log("滚动条距离顶部的高度-->" + scrollTop);
+
+        var scrollHeight = $(document).height(); // 当前页面的总高度
+        console.log("当前页面的总高度-->" + scrollHeight);
+
+        var clientHeight = $(this).height(); // 当前可视的页面高度
+        console.log("当前可视的页面高度-->" + clientHeight);
+
+        if (scrollTop + clientHeight >= scrollHeight) { // 距离顶部高度+可视高度 >= 文档总高度 即代表滑动到底部         
+
+            // code...
+            alert('已经到底了！');
+
+        } else if (scrollTop <= 0) {
+
+            // code...
+            alert('已经到顶了！');
+
+        }
+
+    });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+table {
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table * {
+    width: 60px;
+    height: 60px;
+}
+
+#btn {
+    box-sizing: border-box;
+    width: 190px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#btn * {
+    flex-grow: 1;
+    background-color: red;
+    border: 1px solid #000;
+    color: #fff;
+    height: 30px;
+    font-size: 10px;
+}
+
+.active {
+    background-color: #ccc;
+}
+
+.newactive {
+    background-color: #00ffff;
+}
+</style>
+
+<body>
+    <div id="table"></div>
+    <div id="btn">
+        <button onclick="start('p', 'active','newactive', 100)">顺序抽/停止</button>
+        <button onclick="startRan('p', 'active','newactive', 100)">随机抽/停止</button>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+    // 定义一个奖池
+    var jackpot = [
+        ['奖品A1', '奖品A2', '奖品A3'],
+        ['奖品B1', '奖品B2', '奖品B3'],
+        ['奖品C1', '奖品C2', '奖品C3']
+    ];
+
+    /**
+     * [table 创建表格]
+     * @param  {[Array]} arr        [奖品数组]
+     * @param  {[String]} selector [选择器]
+     * @return {[String]} table [返回一个HTML标签]
+     */
+    function table(arr, selector) {
+
+        var table = '<table border="1">';
+
+        for (var i = 0; i < arr.length; i++) {
+
+            table += '<tr>';
+
+            for (var j = 0; j < arr[i].length; j++) {
+
+                table += '<td class="' + selector + '">' + arr[i][j] + '</td>';
+
+            }
+
+            table += '</tr>';
+
+        }
+
+        table += '</table>';
+
+        return table;
+
+    }
+
+    // 输出奖池
+    document.getElementById('table').innerHTML = table(jackpot, 'p');
+
+    var key = true; // start,startRan控制器
+    var num = 3; // 抽奖次数
+    // 抽过的还能抽     可定义抽奖次数-->次数限制                       num需要定义
+    //                 不定义抽奖次数-->次数无限                       num不需定义
+    // 抽过的不能抽     可定义抽奖次数-->次数限制(次数不超过选择器长度)   num需要定义
+    //                 不定义抽奖次数-->次数等于选择器长度              num需要定义
+
+    /**
+     * [start 开始抽奖]
+     * @param  {[String]} selector    [选择器]
+     * @param  {[String]} addselector [给选中的添加样式]
+     * @param  {[String]} newaddselector [中奖奖品样式]
+     * @param  {[Number]} speed       [时间越小，速度越快]
+     * @return {[type]}             [description]
+     */
+    function start(selector, addselector, newaddselector, speed) {
+
+        if (key) {
+
+            if (typeof(num) == 'undefined' || num != 0) {
+
+                var count = 0;
+
+                // 如果写成var timer会每次执行时重新定义一个timer，那么clearInterval(timer)只能清除后面定义的那个timer，前面定义的已经没有变量指向了  无法清除
+                timer = setInterval(function() {
+
+                    if (count < $('.' + selector).length) {
+
+                        $('.' + selector).eq(count).addClass(addselector);
+
+                        $('.' + selector).eq(count).siblings().removeClass(addselector);
+
+                        $('.' + selector).eq(count).parent().siblings().children().removeClass(addselector);
+
+                        count++;
+
+                    } else {
+
+                        count = 0;
+
+                    }
+
+                }, speed);
+
+                if(typeof(num) != 'undefined'){
+
+                    num--;
+
+                }
+
+            } else{
+
+                key = false;
+
+                console.log("抽奖结束");
+
+            }
+
+        } else {
+
+            clearInterval(timer);
+
+            // 决定抽中的奖品的样式和抽中的奖品能否继续抽
+            $('.' + addselector).addClass(newaddselector).removeClass(selector);
+
+            // 奖品
+            console.log($('.' + addselector).html());
+
+        }
+
+        key = !key;
+
+    }
+
+    /**
+     * [start 开始抽奖]
+     * @param  {[String]} selector    [选择器]
+     * @param  {[String]} addselector [给选中的添加样式]
+     * @param  {[String]} newaddselector [中奖奖品样式]
+     * @param  {[Number]} speed       [时间越小，速度越快]
+     * @return {[type]}             [description]
+     */
+    function startRan(selector, addselector, newaddselector, speed) {
+
+        if (key) {
+
+            if (typeof(num) == 'undefined' || num != 0) {
+
+                // 如果写成var timer会每次执行时重新定义一个timer，那么clearInterval(timer)只能清除后面定义的那个timer，前面定义的已经没有变量指向了  无法清除
+                timer = setInterval(function() {
+
+                    var count = Math.floor(Math.random() * $('.' + selector).length);
+
+                    $('.' + selector).eq(count).addClass(addselector);
+
+                    $('.' + selector).eq(count).siblings().removeClass(addselector);
+
+                    $('.' + selector).eq(count).parent().siblings().children().removeClass(addselector);
+
+                }, speed);
+
+                if(typeof(num) != 'undefined'){
+
+                    num--;
+
+                }
+
+            } else {
+
+                key = false;
+
+                console.log("抽奖结束");
+
+            }
+
+
+        } else {
+
+            clearInterval(timer);
+
+            // 决定抽中的奖品的样式和抽中的奖品能否继续抽
+            $('.' + addselector).addClass(newaddselector).removeClass(selector);
+
+            // 奖品
+            console.log($('.' + addselector).html());
+
+        }
+
+        key = !key;
+
+    }
+    </script>
+</body>
+
+</html>

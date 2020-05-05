@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>正则去除html字符串中的注释、标签、属性</title>
+</head>
+<body>
+	<script>
+		var str = '<!-- 注释1 --><h1 style="color:#00ff00;text-align: center;">ProsperLee<!-- 注释 --></h1>';
+        document.write(str.replace(/<!--[\w\W\r\n]*?-->/gmi, '')); // 去除HTML中的注释
+        document.write(str.replace(/<[^>]+>/g,"")); // 去除HTML标签
+        document.write(str.replace(/(<[^\s\/>]+)\b[^>]*>/gi,"$1>")); // 去除HTML标签中的属性
+	</script>
+</body>
+</html>

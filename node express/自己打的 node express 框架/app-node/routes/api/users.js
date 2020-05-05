@@ -8,10 +8,18 @@ const passport = require('passport')
 const router = express.Router()
 const gravatar = require('gravatar');
 
+const svg = require('svg-captcha')
+
 router.get('/test', (req, res) => {
-    res.json({
-        msg: 'hellow yby'
-    })
+    var captcha = svg.create({
+        size:4,
+        ignoreChars:'0o1i',
+        noise:1,
+        color:true ,
+    });    
+    req.session.captcha = captcha.text.toLowerCase()
+    res.type('svg')
+    res.send(captcha.data)
 })
 
 router.post('/register', (req, res) => {
