@@ -1,2 +1,4 @@
 /* pages/wuui_demo/wuui_demo.wxss */
-@import '/weui/widget/weui-grid/weui-grid.wxss';
+/* image {
+  display: inline;
+} */

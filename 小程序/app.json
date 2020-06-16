@@ -16,8 +16,7 @@
     "selectedColor": "#1296db",
     "borderStyle": "white",
     "backgroundColor": "#fff",
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/index/index",
         "text": "名片"
       },

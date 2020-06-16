@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+
+  },
+  "navigationBarTitleText": "UI组件库"
 }

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apifm-wxapi": "^3.8.0"
+    "apifm-wxapi": "^3.8.0",
+    "weui-miniprogram": "^1.0.3"
   }
 }

@@ -1,4 +1,7 @@
 //app.js
+
+require('./libs/Mixins.js');
+
 const themeListeners = [];
 
 App({
