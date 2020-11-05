@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form action="{% url 'APP03:login' %}" method="post">
+    {% csrf_token %}
+    用户名： <input type="text" name="username"> <br>
+    密码： <input type="text" name="password"> <br>
+    {{ form.captcha.errors }}
+    <div class="field">
+        <div class="ui left img input">
+            <button id='js-captcha-refresh' class='ui icon button '><i class="refresh icon green"></i></button>
+            <img src="{{ image_url }}" alt="captcha" class="captcha">
+            <input autocomplete="off" id="id_captcha_1" name="captcha_1" type="text" placeholder="输入验证码">
+            <input id="id_reg_captcha_0" name="captcha_0" type="hidden" value="{{ hashkey }}">
+        </div>
+    </div>
+    <input type="submit">
+</form>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<script>
+    $('.captcha').click(function () {
+        $.getJSON("/captcha/refresh/", function (result) {
+            $('.captcha').attr('src', result['image_url']);
+            $('#id_captcha_0').val(result['key'])
+        });
+
+    });
+</script>
+</body>
+</html>

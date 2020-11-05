@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>main_app</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        .home {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .tab {
+            flex: 1;
+            flex-shrink: 0;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .main1 {
+            flex: 7;
+            width: 100%;
+            padding: 10px;
+        }
+
+        .main1 ul li {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .tab ul {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+        }
+
+        .tab ul li {
+            padding: 30px;
+            margin: 0 10px 0 10px;
+            background: #ccc;
+
+        }
+
+        .tab ul li:nth-child(1) {
+            margin-left: 20px;
+        }
+
+        .tab ul li:hover {
+            background: skyblue;
+            transition: all 0.3s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="home">
+    <div class="tab">
+        <ul>
+            {% for i in artic_tab %}
+                <li>
+                    <a href="{% url 'App:main_app' id=i.id %}" target="main_app">{{ i.tab }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="main1">
+        <ul>
+            <li>
+                id | 标题 | 创建时间 | 更新时间 | <input type="text" id="search">
+                <button onclick="search();">search</button>
+            </li>
+            {% for i in artic_content %}
+                <li>
+                    <a href="#">{{ i.title }}</a> | {{ i.create_date }} | {{ i.update_date }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script>
+    var ipt = document.getElementById('search')
+
+    function search() {
+        let a = document.createElement('a')
+        console.log(ipt.value)
+        a.href = `{% url 'App:main_app' id=id %}?search=${ipt.value}`
+        console.log(a)
+        a.click()
+    }
+
+</script>
+</body>
+</html>

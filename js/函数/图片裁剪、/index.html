@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .inner {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            opacity: 0.3;
+            position: absolute;
+            left: 100px;
+            top: 100px;
+        }
+
+        .img {
+            width: 300px;
+            height: 1000px;
+        }
+
+        .avatarRef {
+            width: 300px;
+            height: 1000px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file">
+    <!-- onchange="handleChange()" -->
+    <div class="img">
+
+    </div>
+    <div onclick="confirm()">剪切</div>
+    <div class="app">
+        <div class="home" style="position:relative">
+            <canvas id="canvas" width="300px" height="300px">
+            </canvas>
+            <div class="inner" style="border: '2px dashed #632B21'">
+
+            </div>
+        </div>
+        <div class="avatarRef">
+
+        </div>
+    </div>
+    <script>
+        let state = {
+            file: 1, // 选中的文件
+            dataURL: "", // 选中的文件的原始的base64字符串
+            times: 1, // 放大倍数
+            startX: 0, // 鼠标按下时的x坐标
+            startY: 0, // 鼠标按下时的y坐标
+            startDrag: false, // 是否在拖拽过程中
+            lastX: 0, // 上一次最后的x坐标
+            lastY: 0, // 上一次最后的y坐标
+            avatarDataUrl: "",
+        };
+        let app = document.querySelector('.app')
+        let file = document.querySelector('input')
+        file.addEventListener('change', (event) => {
+            handleChange(event)
+        })
+        app.addEventListener('mousedown', (event) => {
+            handleMouseDown(event)
+        })
+        app.addEventListener('mousemove', (event) => {
+            handleMouseMove(event)
+        })
+        app.addEventListener('mouseup', (event) => {
+            handleMouseUp(event)
+        })
+        setState = (item) => {
+            for (let i in item) {
+                console.log(state[i])
+                if (i in state) {
+                    state[i] = item[i]
+                } else {
+                    console.log(i)
+                    throw `state 里没有${i}属性`
+                }
+            }
+        }
+        handleMouseDown = (event) => {
+
+            this.setState({
+                startX: event.clientX,
+                startY: event.clientY,
+                startDrag: true,
+            });
+        };
+        handleMouseMove = (event) => {
+            if (state.startDrag) {
+                this.drawImage(
+                    event.clientX - state.startX + state.lastX,
+                    event.clientY - state.startY + state.lastY
+                );
+            }
+        };
+        handleMouseUp = (event) => {
+            this.setState({
+                lastX: event.clientX - state.startX + state.lastX,
+                lastY: event.clientY - state.startY + state.lastY,
+                startDrag: false,
+            });
+        };
+        handleChange = (event) => {
+            console.log(event)
+            let file = event.target.files[0];
+            let fileReader = new FileReader();
+            fileReader.onload = (event) => {
+                this.setState({
+                    file,
+                    dataURL: event.target.result,
+                });
+                let img = new Image()
+                img.src = event.target.result
+                img.style.width = '300px'
+                document.querySelector('.img img') ? document.querySelector('.img').removeChild('img') : null
+                document.querySelector('.img').appendChild(img)
+                img.onload = () => this.drawImage();
+            };
+            fileReader.readAsDataURL(file);
+        };
+        drawImage = (left = state.lastX, top = state.lastY) => {
+            let image = document.querySelector('.img img');
+            let canvas = document.querySelector('#canvas');
+            let ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let imageWidth = image.width;
+            let imageHeight = image.height;
+            if (imageWidth > imageHeight) {
+                let scale = canvas.width / canvas.height;
+                imageWidth = canvas.width * state.times;
+                imageHeight = imageHeight * scale * state.times;
+            } else {
+                let scale = canvas.height / canvas.width;
+                imageHeight = canvas.height * state.times;
+                imageWidth = imageWidth * scale * state.times;
+            }
+            ctx.drawImage(
+                image,
+                (canvas.width - imageWidth) / 2 + left,
+                (canvas.height - imageHeight) / 2 + top,
+                imageWidth,
+                imageHeight
+            );
+        };
+        confirm = () => {
+            let canvas = document.querySelector('#canvas');
+            let ctx = canvas.getContext("2d");
+            const imageData = ctx.getImageData(100, 100, 100, 100);
+            let avatarCanvas = document.createElement("canvas");
+            avatarCanvas.width = 100;
+            avatarCanvas.height = 100;
+            let avatarCtx = avatarCanvas.getContext("2d");
+            avatarCtx.putImageData(imageData, 0, 0);
+            let avatarDataUrl = avatarCanvas.toDataURL();
+            this.setState({
+                avatarDataUrl
+            });
+            // avatarCanvas.toBlob((app) => { //把canves变成blob 类型 和update函数功能冲突
+
+            //     console.log(app)
+            // })
+            let img = new Image()
+            img.src = avatarDataUrl
+            img.style.width = '300px'
+            document.querySelector('.avatarRef img') ? document.querySelector('.avatarRef').removeChild('img') :
+                null
+            document.querySelector('.avatarRef').appendChild(img)
+            // this.avatarRef.current.src = avatarDataUrl;
+        };
+
+        upload = (event) => {  //把文件变成Blob 类型 向后台发送
+            // console.log("文件url", this.state.avatarDataUrl);
+            let bytes = atob(this.state.avatarDataUrl.split(",")[1]);
+            console.log("bytes", bytes);
+            let arrayBuffer = new ArrayBuffer(bytes.length);
+            let uInt8Array = new Uint8Array();
+            for (let i = 0; i < bytes.length; i++) {
+                uInt8Array[i] = bytes.charCodeAt[i];
+            }
+            let blob = new Blob([arrayBuffer], {
+                type: "image/png"
+            });
+            let xhr = new XMLHttpRequest();
+            let formData = new FormData();
+            formData.append("avatar", blob);
+            xhr.open("POST", "/upload", true);
+            xhr.send(formData);
+        };
+    </script>
+</body>
+
+</html>

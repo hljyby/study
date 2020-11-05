@@ -1,0 +1,8 @@
+.container {
+  width: 800px;
+}
+.row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}

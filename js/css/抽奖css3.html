@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        #bg {
+            position: absolute;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        #img1 {
+            z-index: 10;
+            width: 25%;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        #img2 {
+            z-index: 5;
+            width: 85%;
+            -webkit-transition: all 4s;
+            transition: all 4s;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .turntable {
+            width: 100%;
+            height: 100%;
+            /* display: none; */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, .6);
+            z-index: 999999;
+        }
+
+        .close {
+            position: absolute;
+            top: 0;
+            right: 0.3rem;
+            z-index: 99999;
+            font-size: 0.6rem;
+            color: #fff;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            width: 0.7rem;
+            height: 0.7rem;
+            line-height: 0.7rem;
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="turntable">
+        <div id="bg">
+            <img src="https://www.17sucai.com/preview/853305/2020-05-07/zhuanpan/img/p.png" alt="pointer" id="img1">
+            <img src="https://www.17sucai.com/preview/853305/2020-05-07/zhuanpan/img/j.png" alt="turntable" id="img2"
+                style="transform: rotate(2940deg);">
+        </div>
+    </div>
+
+    <script>
+        var oPointer = document.getElementById("img1");
+        var oTurntable = document.getElementById("img2");
+        var cat = 60; //总共6个扇形区域，每个区域约60度;
+        var num = 0; //转圈结束后停留的度数
+        var offOn = true; //是否正在抽奖
+        var min, range;
+        var rdmList = [];
+        var q;
+        oPointer.onclick = function () {
+            //通过中奖结果转盘
+            if (offOn) {
+                //2 老用户，25%概率调发奖
+                var awardNum = "25";
+                var num = randomNum(0, 7);
+                if (awardNum.indexOf(num) == -1) {
+                    // return;
+                    min = cat * 1;
+                    range = cat * 6;
+                    for (var i = 3; i < 10; i++) {
+                        rdmList.push(min + i * 360)
+                    }
+                    q = Math.floor(Math.random() * (rdmList.length))
+                }
+                oTurntable.style.transform = "rotate(0deg)";
+                offOn = !offOn;
+            }
+            ratating(); //调用旋转
+        }
+        //旋转
+        function ratating() {
+            var timer = null;
+            var rdm = 0; //随机度数
+            timer = setInterval(function () {
+                if (Math.floor(rdm / 360) < 3) {
+                    var randLoop = randomNum(0, 4);
+                    rdm = rdmList[q] + randLoop * range;
+                } else {
+                    oTurntable.style.transform = "rotate(" + rdm + "deg)";
+                    clearInterval(timer);
+                    setTimeout(function () {
+                        offOn = !offOn;
+                        num = rdm % 360;
+                        if (num < cat * 1) {
+                            alert('中奖啦')
+                        } else if (num < cat * 2) {
+                            alert('没中奖')
+                        }
+                    }, 4000);
+                }
+            }, 30);
+        }
+
+        //生成[n,m]的随机整数
+        function randomNum(minNum, maxNum) {
+            switch (arguments.length) {
+                case 1:
+                    return parseInt(Math.random() * minNum + 1, 10);
+                    break;
+                case 2:
+                    return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+                    break;
+                default:
+                    return 0;
+                    break;
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>
