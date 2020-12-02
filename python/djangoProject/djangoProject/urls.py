@@ -17,11 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
 
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('user/', include('App.urls')),
     path('app/', include('App02.urls')),
     path('register/', include('APP03.urls')),
     url(r'^captcha/', include('captcha.urls')),
+    url(r'^tinymce/', include('tinymce.urls')),
+    path('cache/', include('App04.urls')),
+
 ]

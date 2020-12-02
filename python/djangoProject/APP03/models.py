@@ -34,6 +34,7 @@ class StudentDetail(models.Model):
 class User(AbstractUser):
     username = models.CharField(max_length=30, unique=True)
     password = models.CharField(max_length=128)
+    is_active = models.IntegerField(default=1)
 
     class Meta:
         db_table = 'user'

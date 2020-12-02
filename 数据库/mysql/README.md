@@ -46,7 +46,7 @@ insert into 表名 set 字段名=值;
 
 DELETE FROM [table_name] WHERE [condition];
 
-改：
+改：	
 
 UPDATE [table_name] SET column1 = value1, column2 = value2...., columnN = valueN
 
@@ -271,7 +271,7 @@ sum,svg,max,min
   - 安装下载的这个mysql 库
   - vim /etc/yum/repos.d/mysql-community.repo
   - 修改里面 mysql 8.0文件 enabled 改为0（0为不安装，1位安装），添加5.7的安装目录，没有上网查。（把8.0复制一遍改为5.7）
-  - yum install mysql-community-server 安装nysql数据库
+  - yum install mysql-community-server 安装mysql数据库
 
 - 忘记密码了
   - 找到etc里面的mysql 配置文件 在 【mysqld】 下面加一行skip-grant-tables
@@ -288,8 +288,9 @@ sum,svg,max,min
   - ```sql
      5.7
      
-     GRANT ALL <privileges> ON *.*(<database>.<table>) TO 'myuser'@'localhost' IDENTIFIED BY "123" WITH GRANT OPTION
+     GRANT ALL ON *.*(<database>.<table>) TO 'myuser'@'localhost' IDENTIFIED BY "123" WITH GRANT OPTION
      
+     ALL 代表 所有权限 （privileges）
      
      GRANT 授予
      
@@ -303,13 +304,14 @@ sum,svg,max,min
      
      8.0版本
      
-     create user '用户名'@‘主机 indentified by '密码';
-     grant all privileges on *.* to 用户名@主机 with grant option
+     create user '用户名'@主机 indentified by '密码';
+    grant all on *.* to 用户名@主机 with grant option
     ```
-
+  ```
+     
   - ```
     flush privilegs 刷新权限
-    ```
+  ```
 
 - 查看权限
 
@@ -330,7 +332,8 @@ sum,svg,max,min
   - ```sql
     update user set authentication_string=password('你的密码') where user="root" 
     or
-    alter user '用户名'@'localhost' identified with mysql_native_password by '你的密码'；
+    alter user '用户名'@'localhost' identified with mysql_native_password by '你的密码';
+    -- mysql_native_password 代表密码加密规则 这个加密规则是5.x 的
     ```
 
 - 删除用户
@@ -344,7 +347,7 @@ sum,svg,max,min
 - 创建一个可以再任意mysql client 登录的账户
 
   - ``` sql
-     GRANT ALL privileges ON *.* TO myuser@'%' IDENTIFIED BY "123" WITH GRANT OPTION
+     GRANT ALL ON *.* TO myuser@'%' IDENTIFIED BY "123" WITH GRANT OPTION -- mysql5.x
     ```
 
   - 此用户可以在任意mysql 客户端登录
@@ -611,7 +614,7 @@ sum,svg,max,min
 
 - inner join 
 
-  - ```
+  - ```sql
     select student.age,student.name,student.id from srtudent inner join sorce 
     on student.id = sorce.id
     -- 两个表相交的地方
@@ -629,7 +632,7 @@ sum,svg,max,min
   
 - 子查询
 
-  - ```
+  - ```sql
     select * from student where id in (select min(id) from student group by city)
     ```
 
@@ -890,4 +893,25 @@ sum,svg,max,min
     ```
 
     
+
+# mysql5.x mysql8.x 密码加密规则不一样 导致client 无法登陆
+
+```sql
+-- 出现这个原因是mysql8 之前的版本中加密规则是mysql_native_password,而在mysql8之后,加密规则是caching_sha2_password, 解决问题方法有两种,一种是升级navicat驱动,一种是把mysql用户登录密码加密规则还原成mysql_native_password. 
+
+-- 修改账户密码加密规则并更新用户密码
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' PASSWORD EXPIRE NEVER;   -- 修改加密规则 
+-- PASSWORD EXPIRE NEVER 永不过期
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';  -- 更新一下用户的密码
+
+-- 上面两句合起来才能 修改加密规则 第一句用处就是永不过期，还可以这么写
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password' PASSWORD EXPIRE NEVER;
+-- 效果是一样的
+
+FLUSH PRIVILEGES;   -- 刷新权限 
+
+-- 单独修改密码命令：
+alter user 'root'@'localhost' identified by '111111';
+ 
+```
 

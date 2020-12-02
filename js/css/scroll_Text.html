@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        img {
+            height: 200px;
+        }
+
+        #scrollDiv {
+            display: inline-block;
+            float: left;
+            overflow-x: auto;
+            white-space: nowrap;
+            width: 500px;
+        }
+
+        #scrollDiv::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="scrollDiv">
+        <img src="http://img30.360buyimg.com/jr_image/jfs/t1948/155/1535759852/15649/2cba8c4b/56615b6fN6a873846.jpg"
+            class="uploadImg" alt="" id="localfile">
+        <img src="http://img30.360buyimg.com/jr_image/jfs/t1948/155/1535759852/15649/2cba8c4b/56615b6fN6a873846.jpg"
+            class="uploadImg" alt="" id="localfile">
+        <img src="http://img30.360buyimg.com/jr_image/jfs/t1948/155/1535759852/15649/2cba8c4b/56615b6fN6a873846.jpg"
+            class="uploadImg" alt="" id="localfile">
+        <img src="http://img30.360buyimg.com/jr_image/jfs/t1948/155/1535759852/15649/2cba8c4b/56615b6fN6a873846.jpg"
+            class="uploadImg" alt="" id="localfile">
+        <img src="http://img30.360buyimg.com/jr_image/jfs/t1948/155/1535759852/15649/2cba8c4b/56615b6fN6a873846.jpg"
+            class="uploadImg" alt="" id="localfile">
+        <img src="http://img30.360buyimg.com/jr_image/jfs/t1948/155/1535759852/15649/2cba8c4b/56615b6fN6a873846.jpg"
+            class="uploadImg" alt="" id="localfile">
+        <img src="http://img30.360buyimg.com/jr_image/jfs/t1948/155/1535759852/15649/2cba8c4b/56615b6fN6a873846.jpg"
+            class="uploadImg" alt="" id="localfile">
+        <img src="http://img30.360buyimg.com/jr_image/jfs/t1948/155/1535759852/15649/2cba8c4b/56615b6fN6a873846.jpg"
+            class="uploadImg" alt="" id="localfile">
+        <img src="http://img30.360buyimg.com/jr_image/jfs/t2089/259/1344864990/31575/e10681a6/56567151N00597360.jpg"
+            class="uploadImg" alt="" id="localfile">
+        <img src="http://img30.360buyimg.com/jr_image/jfs/t2320/340/1246298565/41235/6a164b17/5652bcb7Na9f44ab3.jpg"
+            class="uploadImg" alt="" id="localfile">
+    </div>
+    <script type="text/javascript">
+        var scrollDiv = document.getElementById("scrollDiv");
+
+        var element = document.documentElement;
+        if (navigator.userAgent.indexOf("Chrome") > 0) {
+            element = document.body;
+        }
+
+        document.addEventListener('DOMMouseScroll', handler, false)
+        document.addEventListener('mousewheel', handler, false)
+
+        function handler(event) {
+            var detail = event.wheelDelta || event.detail;
+            var moveForwardStep = 1;
+            var moveBackStep = -1;
+            var step = 0;
+            if (detail > 0) {
+                step = moveForwardStep * 100;
+            } else {
+                step = moveBackStep * 100;
+            }
+            console.log(scrollDiv.scrollLeft)
+            scrollDiv.scrollLeft += step;
+
+        }
+    </script>
+</body>
+
+</html>

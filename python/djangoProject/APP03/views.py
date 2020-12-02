@@ -2,6 +2,7 @@ from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password, check_password
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -9,10 +10,13 @@ from django.shortcuts import render, redirect
 from APP03.forms import RegisterForm, Login
 from APP03.models import User
 
-
 # Create your views here.
 
 # @login_required(login_url='APP03:login')
+from APP03.uploads import FileUpload
+from djangoProject.settings import MEDIA_ROOT
+
+
 def register(request):
     form = RegisterForm(request.POST)
     if request.method == 'POST':
@@ -47,6 +51,8 @@ def user_login(request):
 
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+        # password = make_password('123')
+        # print(check_password('123',password))
         if user:
             login(request, user)
             form = Login(request.POST)
@@ -96,5 +102,36 @@ def email(request):
     msg1 = ('标题', '内容', settings.DEFAULT_FROM_EMAIL, ['230106199@qq.com'])
     msg2 = ('标题', '内容', settings.DEFAULT_FROM_EMAIL, ['230106199@qq.com'])
 
-    send_mass_mail((msg1,msg2), fail_silently=False)
+    send_mass_mail((msg1, msg2), fail_silently=False)
     return HttpResponse('邮件发送成功')
+
+
+def artical(request):
+    if request.method == 'POST':
+        print(request.POST.get('content'))
+    return render(request, 'artical.html')
+
+
+def uploads(request):
+    if request.method == 'POST':  # 获取对象
+        obj = request.FILES.get('fafafa')
+        import os
+        # # 上传文件的文件名 　　　　
+        # f = open(os.path.join(MEDIA_ROOT, 'pic', obj.name), 'wb')
+        # if obj.multiple_chunks():
+        #     for chunk in obj.chunks():
+        #         f.write(chunk)
+        #     print('大于2.5')
+        # else:
+        #      f.write(obj.read())
+        #     print('小于2.5')
+        # f.close()
+        path = os.path.join(MEDIA_ROOT, 'pic')
+        print(path)
+        fp = FileUpload(obj, exts=['MOV'])
+        print(fp.upload(path))
+        if fp.upload(path):
+            return HttpResponse('OK')
+        else:
+            return HttpResponse('bad')
+    return render(request, 'uploads.html')

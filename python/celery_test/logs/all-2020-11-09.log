@@ -1,0 +1,21 @@
+[2020-11-09 09:37:16,927] [autoreload.py:578] [autoreload:run_with_reloader] [INFO]- Watching for file changes with StatReloader
+[2020-11-09 09:37:31,582] [basehttp.py:154] [basehttp:log_message] [WARNING]- "GET /register/login/ HTTP/1.1" 404 77
+[2020-11-09 09:37:40,586] [log.py:222] [log:log_response] [ERROR]- Internal Server Error: /cbv
+Traceback (most recent call last):
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\views\generic\base.py", line 97, in dispatch
+    return handler(request, *args, **kwargs)
+TypeError: get() takes 1 positional argument but 2 were given
+[2020-11-09 09:37:42,821] [basehttp.py:154] [basehttp:log_message] [ERROR]- "GET /cbv HTTP/1.1" 500 27
+[2020-11-09 09:37:42,975] [basehttp.py:154] [basehttp:log_message] [WARNING]- "GET /favicon.ico HTTP/1.1" 404 77
+[2020-11-09 09:38:28,239] [autoreload.py:203] [autoreload:trigger_reload] [INFO]- G:\新知识\python\celery_test\celery_test\settings.py changed, reloading.
+[2020-11-09 09:38:29,264] [autoreload.py:578] [autoreload:run_with_reloader] [INFO]- Watching for file changes with StatReloader
+[2020-11-09 09:38:33,170] [basehttp.py:154] [basehttp:log_message] [ERROR]- "GET /cbv HTTP/1.1" 500 59
+[2020-11-09 09:40:27,010] [autoreload.py:203] [autoreload:trigger_reload] [INFO]- G:\新知识\python\celery_test\celery_test\settings.py changed, reloading.

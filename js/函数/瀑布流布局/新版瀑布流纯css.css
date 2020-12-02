@@ -1,0 +1,19 @@
+两行css如下:
+```
+<style scoped> 
+  .waterfall-container {
+    /*分几列*/
+    column-count: 2;
+  }
+
+  .waterfall-item {
+    /*不留白，不知道什么意思可以取消这个样式试试*/
+    break-inside: avoid;
+  }
+</style>
+```
+
+```
+/*列间距，可有可无，默认30px*/
+/*column-gap: 0;*/
+```

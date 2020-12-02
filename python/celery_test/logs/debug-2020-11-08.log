@@ -1,0 +1,33 @@
+[2020-11-08 16:35:20,905] [log.py:222] [log:log_response] [ERROR]- Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "G:\新知识\python\celery_test\App\views.py", line 13, in index
+    print(1 / 0)
+ZeroDivisionError: division by zero
+[2020-11-08 16:41:35,830] [log.py:222] [log:log_response] [ERROR]- Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "G:\新知识\python\celery_test\App\views.py", line 13, in index
+    print(1 / 0)
+ZeroDivisionError: division by zero
+[2020-11-08 16:44:13,898] [log.py:222] [log:log_response] [ERROR]- Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "E:\Anaconda3\envs\celery\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "G:\新知识\python\celery_test\App\views.py", line 13, in index
+    print(1 / 0)
+ZeroDivisionError: division by zero

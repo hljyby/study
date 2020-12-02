@@ -20,7 +20,7 @@ class MyManager(Manager):
 class ArticleContent(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     isdelete = models.IntegerField()
-    tid = models.IntegerField(max_length=10)
+    tid = models.IntegerField()
     update_date = models.DateTimeField(auto_now=True)
     content = models.TextField(blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True)

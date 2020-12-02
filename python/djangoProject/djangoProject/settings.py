@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'App02',
     'APP03',
     'captcha',
+    'tinymce',
+    'App04',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'APP03.MyMiddleware.MyMiddleware',
 ]
 
 ROOT_URLCONF = 'djangoProject.urls'
@@ -149,7 +152,47 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # 固定写法
 EMAIL_HOST = 'smtp.163.com'  # SMTP地址
 EMAIL_PORT = 25  # SMTP端口
 EMAIL_HOST_USER = '18249241924@163.com'  # 发送邮件的邮箱
-EMAIL_HOST_PASSWORD = '88888898888'  # 授权码
+EMAIL_HOST_PASSWORD = 'LGAGMGHTETRLUCRQ'  # 授权码
 EMAIL_SUBJECT_PREFIX = '[杨xx测试] '  # 为邮件Subject-line前缀,默认是'[django]'
 EMAIL_USE_TLS = True  # 与SMTP服务器通信时，是否启动TLS链接(安全链接)默认false
 DEFAULT_FROM_EMAIL = '贪婪玩月客服中心<18249241924@163.com>'  # 收件人看到的发件人<此处要和发邮件的邮箱相同>
+
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',  # 外观 样式
+    'width': 600,
+    'height': 400
+}
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',  # 指定缓存使用的引擎
+#         'LOCATION': 'cache_table',  # 数据库表
+#         # 'OPTIONS':{
+#         #  'MAX_ENTRIES': 300,           # 最大缓存记录的数量（默认300）
+#         #  'CULL_FREQUENCY': 3,          # 缓存到达最大个数之后，剔除缓存个数的比例，即：1/CULL_FREQUENCY（默认3）
+#         # }
+#     }
+# }
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.0.200:6379/1",
+        # "LOCATION": "redis://:密码@192.168.0.200:6379",
+        # "OPTIONS": {
+        #     "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        #     "CONNECTION_POOL_KWARGS": {"max_connections": 100}
+        #     # "PASSWORD": "密码",
+        # }
+    }
+}
+
+# import djcelery
+#
+# djcelery.setup_loader()
+# BROKER_URL = 'redis://192.168.0.200:6379/2'
+# CELERY_CONCURRENCY = 2  # （设置worker的并发数量）
+# CELERY_RESULT_BACKEND = 'redis://192.168.0.200:6379'
