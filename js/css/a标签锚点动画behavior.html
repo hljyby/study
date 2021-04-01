@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            scroll-behavior: smooth;
+            list-style: none;
+            
+        }
+
+        .bo {
+            width: 100%;
+            height: 500%;
+        }
+
+        .bo1 {
+            width: 100%;
+            height: 20%;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .yellow {
+            background-color: yellow;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+
+        .black {
+            background-color: black;
+        }
+        .b2{
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        button,a{
+            width: 50px;
+            height: 50px;
+            border: none;
+            margin: 10px;
+            background-color: white;
+            text-align: center;
+            line-height: 50px;
+            font-size: 22px;
+            color: #ccc;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bo">
+        <div class="b2">
+            <!-- <button onclick="click_btn('black')">黑</button>
+            <button onclick="click_btn('red')">红</button>
+            <button onclick="click_btn('green')">绿</button>
+            <button onclick="click_btn('yellow')">黄</button>
+            <button onclick="click_btn('blue')">蓝</button> -->
+            <a href="#red">红</a>
+            <a href="#green">绿</a>
+            <a href="#yellow">黄</a>
+            <a href="#blue">蓝</a>
+            <a href="#black">黑</a>
+        </div>
+        <div class="bo1 red" id="red"></div>
+        <div class="bo1 green" id=green></div>
+        <div class="bo1 yellow" id="yellow"></div>
+        <div class="bo1 blue" id="blue"></div>
+        <div class="bo1 black" id="black"></div>
+    </div>
+    <script>
+        click_btn = function (item) {
+            document.getElementsByClassName(item)[0].scrollIntoView({
+                block: "end",
+                inline: "end",
+                behavior: "smooth"
+            })
+        }
+    </script>
+</body>
+
+</html>

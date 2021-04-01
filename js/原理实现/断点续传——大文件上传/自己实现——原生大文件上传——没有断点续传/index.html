@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="file" id="file">
+    <script>
+        function request({
+            path,
+            method = "POST",
+            data,
+            headers = {}
+        }) {
+            return new Promise((resolve) => {
+                const xhr = new XMLHttpRequest()
+                xhr.open(method, path)
+                Object.keys(headers).forEach(key => {
+                    xhr.setRequestHeader(key, headers[key])
+                })
+                xhr.send(data)
+                xhr.onload = e => {
+                    resolve({
+                        data: e.target.response
+                    })
+                }
+            })
+        }
+
+        const mergeRequest = async (size, filename) => {
+            console.log(JSON.stringify({
+                size,
+                filename
+            }))
+            await request({
+                path: "http://192.168.0.103:4444/merge",
+                data: JSON.stringify({
+                    size,
+                    filename
+                }),
+                headers: {
+                    "content-type": "application/json"
+                }
+            })
+        }
+
+        let fileDom = document.getElementById('file')
+        fileDom.addEventListener('change', async (e) => {
+            console.log(e.target.files[0])
+            file = e.target.files[0]
+            const chunkList = []
+            let cur = 0
+            let size = 1024 * 1024 * 10
+            while (cur < file.size) {
+                fileChunk = file.slice(cur, cur + size)
+                chunkList.push({
+                    file: fileChunk
+                })
+                cur += size
+            }
+            console.log(chunkList)
+            let filename = file.name.split('.')[0]
+            let requestList = chunkList.map(({
+                file
+            }, index) => {
+                let form = new FormData
+                form.append('chunk', file)
+                form.append('filename', `${filename}-${index}`)
+                return {
+                    formData: form
+                }
+            }).map(async ({
+                    formData
+                }) =>
+                request({
+                    data: formData,
+                    path: "http://192.168.0.103:4444"
+                }))
+            await Promise.all(requestList)
+            mergeRequest(size, file.name)
+        })
+    </script>
+</body>
+
+</html>

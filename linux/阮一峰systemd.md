@@ -8,7 +8,7 @@ Systemd 是 Linux 系统工具，用来启动[守护进程](http://www.ruanyifen
 
 本文介绍它的基本用法，分为上下两篇。今天介绍它的主要命令，[下一篇](http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html)介绍如何用于实战。
 
-![img](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016030701.gif)
+![img](.\images\bg2016030701.gif)
 
 ## 一、由来
 
@@ -34,7 +34,7 @@ Systemd 就是为了解决这些问题而诞生的。它的设计目标是，为
 
 根据 Linux 惯例，字母`d`是守护进程（daemon）的缩写。 Systemd 这个名字的含义，就是它要守护整个系统。
 
-![img](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016030702.jpg)
+![img](.\images\bg2016030702.jpg)
 
 （上图为 Systemd 作者 [Lennart Poettering](https://en.wikipedia.org/wiki/Lennart_Poettering)）
 
@@ -48,7 +48,7 @@ Systemd 就是为了解决这些问题而诞生的。它的设计目标是，为
 
 Systemd 的优点是功能强大，使用方便，缺点是体系庞大，非常复杂。事实上，现在还有很多人反对使用 Systemd，理由就是它过于复杂，与操作系统的其他部分强耦合，违反"keep simple, keep stupid"的[Unix 哲学](http://www.ruanyifeng.com/blog/2009/06/unix_philosophy.html)。
 
-![img](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016030703.png)
+![img](.\images\bg2016030703.png)
 
 （上图为 Systemd 架构图）
 
@@ -570,7 +570,7 @@ Systemd 统一管理所有 Unit 的启动日志。带来的好处就是，可以
 
 上一篇文章，我介绍了 Systemd 的[主要命令](http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html)，今天介绍如何使用它完成一些基本的任务。
 
-![img](http://www.ruanyifeng.com/blogimg/asset/2016/bg2016030801.jpg)
+![img](.\images\bg2016030801.jpg)
 
 ## 一、开机启动
 

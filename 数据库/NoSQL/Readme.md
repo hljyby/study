@@ -198,130 +198,141 @@
 
 - sql 语句
 
-  - ```sql
-    -- 创建collection的语句
-    db.createCollections('student')  # 大小写分清
-    show collections
-    show databases
-    db.student.insert({'name':'张三','age':'李四'})
-    
-    db.student.find()
-    
-    db.student.update({'name':'张三'},{'name':'王五'})
-    
-    db.student.find().pretty() -- 变漂亮
-    
-    db.student.findOne()
-    
-    ```
+  ```sql
+  -- 创建collection的语句
+  db.createCollections('student')  # 大小写分清
+  show collections
+  show databases
+  db.student.insert({'name':'张三','age':'李四'})
+  
+  db.student.find()
+  
+  db.student.update({'name':'张三'},{'name':'王五'})
+  
+  db.student.find().pretty() -- 变漂亮
+  
+  db.student.findOne()
+  
+  ```
 
+  ```sql
   db.user.find().limit(2)
-
+  
     -- 条件符查询 mongodb支持<  <=  >  >= 四种运算符查询
-
+  
     db.user.find({“age”:{$gt:30}})     age大于30
-
+  
     db.user.find({“age”:{$lt:30}})      age小于30
-
+  
     db.user.find({“age”:{$gte:30}})   age大于或等于30
-
+  
     db.user.find({“age”:{$lte:30}})    age小于或等于30
-
+  
     db.user.find({“age”:{$all:[6,8]}});
-
+  
     -- 查询某一个字段是否存在：$exists
-
+  
     db.user.find({age:{“in":[null],"
-
+  
     db.user.find({“password”:{$exists:true}})；    password存在的记录
-
+  
     db.user.find({“password”:{$exists:false}})；   password不存在的记录
-
+  
     9，取模运算   $mod
-
+  
     10,不等于   $ne       –> (not equals)
-
+  
     11,包含   $in
-
+  
     12,不包含  $nin
-
+  
     13,数组元素的个数   $size
-
+  
     14，正则表达式匹配查询
-
+  
     name不以wpz开头的数据
-
+  
     db.user.find({“name”:{$not:/^wpz.*/}});
-
+  
     查询age数据元素个数为3的数据
-
+  
     db.user.find({age:{$size:3}});
-
+  
     查询所有age不等于10 或者20 的数据
-
+  
     db.user.find({age:{$nin:[10,20]}});
-
+  
     查询所有age等于10 或者20 的数据
-
+  
     db.user.find({age:{$in:[10,20]}});
-
+  
     查询所有age不等于10 的数据
-
+  
     db.user.find({age:{$ne:10}});
-
+  
     查询所有age取模10之后为0 的数据，即查询age为10的倍数的字段：
     db.user.find({age:{$mod:[10,0]}});
-
+  
     exists”:true}});
-
+  
     15,count查询条数
-     - db.user.find().count();
-
+  
+    db.user.find().count();
+  
     16,skip  设置查询数据的起点
-
+  
     查询从第三条数据之后的五条数据
-    - db.user.find().skip(3).limit(5);
-
+  
+    db.user.find().skip(3).limit(5);
+  
     17 排序  sort
-    - db.user.find().sort({age:1});      按照age升序
-    - db.user.find().sort({age:-1});     按照age降序
-
+  
+    db.user.find().sort({age:1});      按照age升序
+    db.user.find().sort({age:-1});     按照age降序
+  
     mongodb也支持存储过程的查询。
+  
+  ```
+
+  
 
     7,数据修改更新
 
+  ```sql
     mongodb的修改是比较烦的一种 ，要用到$set:
-
+  
     例如，吧mongodb中,name为wpz,修改为  wpz_new
     db.user.update({“name”:”wpz”},{$set:”name”:”wpz_new”});
+  ```
 
     8，数据删除
 
+  ```
     mongodb的删除比较简单，格式如下：
     db.user.remove({“name”:”wpz”});             
                  
     db.user.find({“name”:”wpz”}).limit(2)
-
+  
     db.student.drop() -- 删表
-
+  
     db.dropDatabase() -- 删库 注意大小写 
-    ```
     
-    
-    ```
+  ```
 
 - RoBo 3T
 
-  - 想要外网链接数据库必须关闭防火墙
+  想要外网链接数据库必须关闭防火墙
 
-  - ```sql
-    systemctl stop firewalld.service -- 停止firewall
-    
-    systemctl disable firewalld.service -- 禁止firewall开机启动
-    
+  ```sql
+  systemctl stop firewalld.service -- 停止firewall
+  
+  systemctl disable firewalld.service -- 禁止firewall开机启动
+  
+  ```
+
 firewall-cmd --zone=public --add-port=6379/tcp --permanent 
     -- 防火墙放开6379端口
-    
+
     –zone #作用域
     –add-port=80/tcp #添加端口，格式为：端口/通讯协议
     –permanent #永久生效，没有此参数重启后失效
@@ -347,23 +358,25 @@ firewall-cmd --zone=public --add-port=6379/tcp --permanent
     netstat -ntulp |grep 1935   //查看所有1935端口使用情况·
     
      方式二
-     
-    
+
+
     #开放端口:8080
-    
+
     /sbin/iptables -I INPUT -p tcp --dport 8080 -j ACCEPT
-    
-     
-    
-    方式三
-    
+
+
+​     
+​    
+​    方式三
+​    
     -A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
     
     service iptables restart
-    
-    
-    -- ubuntu 
-    
+
+
+​    
+​    -- ubuntu 
+​    
     一般情况下，ubuntu安装好的时候，iptables会被安装上，如果没有的话那就安装上吧
     
     安装
@@ -378,12 +391,13 @@ firewall-cmd --zone=public --add-port=6379/tcp --permanent
     在终端输入
     iptables-save
     完成上述命令我们就完成了开放指定的端口，但是如果此时服务器重启，上述规则就没有了，所以我们需要对规则进行一下持续化操作
-    
-    
-    
-    持久化规则
-    这里我们需要在安装一下工具来帮我们实现，这里我们使用 iptables-persistent
-    
+
+
+​    
+​    
+​    持久化规则
+​    这里我们需要在安装一下工具来帮我们实现，这里我们使用 iptables-persistent
+​    
     安装iptables-persistent
     sudo apt-get install iptables-persistent
     持久化规则
@@ -391,5 +405,6 @@ firewall-cmd --zone=public --add-port=6379/tcp --permanent
     sudo netfilter-persistent reload
     完成上述操作就可以永久打开我们需要的端口了
     ```
-    
-    
+
+
+​    

@@ -371,9 +371,9 @@ sum,svg,max,min
     	tel varchar(32) unique, #unique 唯一约束，如果这个手机重号就不可以在往里面写了
     )charset=utf8;
     describe 表名;
-    show create table 表名; #查看建表语句
+    show create table 表名; -- 查看建表语句
     alter table 表名 rename 新表名;
-    alter 表名 rename to 数据库名.表名;# 移动表
+    alter 表名 rename to 数据库名.表名;-- 移动表
     alter table 表名 add 字段名 数据类型
     alter table 表名 add 字段名 数据类型 first ;# 添加到第一行
     alter table 表名 add 字段名 数据类型 after 字段名; 添加到某个字段之后
@@ -913,5 +913,13 @@ FLUSH PRIVILEGES;   -- 刷新权限
 -- 单独修改密码命令：
 alter user 'root'@'localhost' identified by '111111';
  
+```
+
+# 新建数据库可以写成sql 文件
+
+```sql
+准备 sql 文件
+user 数据库
+source sql文件路径 -- 执行sql 语句
 ```
 

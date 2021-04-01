@@ -117,3 +117,12 @@ route add -host 192.168.100.1  gw 10.224.0.251
 ​     */etc/init.d/samba start*
 
    这样就成功的解决了samba服务异常的问题。
+
+# pwd 和 cwd
+
+```python
+# pwd 是linux 自带的命令.   全称:   pathname of the current working directory. 
+
+# cwd: 不是系统自带的命令, 但是属于 系统的属性 .   全称: current working directory .  不但在 /proc/{id} 这个目录下可以看到cwd, 在很多其他的编程语言中也可以看到( 例如grunt )
+```
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>message</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<!--  -->
+<body>
+  <div class="home">
+    <h1>总数：<%=total %></h1>
+    <table>
+      <thead>
+        <tr>
+          <th>标题</th>
+          <th>页码</th>
+          <th>类型</th>
+          <th>时间</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% resultdata.forEach(function(item){%>
+        <% let a = `goTo('${item.url}')` %>
+        <tr onclick="<%= a %>">
+          <td><%=item.title %></td>
+          <td><%=item.page %></td>
+          <td><%=item.type %></td>
+          <td><%=item.date %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+  </div>
+  <!-- <button>获取数据</button> -->
+  <script>
+    function goTo(url) {
+      console.log(url)
+      window.open(url)
+    }
+  </script>
+</body>
+
+</html>

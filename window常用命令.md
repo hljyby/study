@@ -38,7 +38,7 @@
 
 
 
-- netstat -an                                               查看网络链接
+- netstat -ano                                               查看网络链接
 - 打开无线热点：netsh wlan start hostednetwork
 - 关闭无线热点netsh wlan stop hostednetwork
 - 查询无线热点状态：netsh wlan show hostednetwork
@@ -52,4 +52,16 @@
 - ipconfig /flushdns *# 在命令行执行以下命令可以立即刷新DNS缓存，使host文件修改立即生效*
 - C:\Windows\System32\drivers\etc #host文件夹所在
 - 后来经过人家指导才知道，原来是自己的虚拟机的虚拟网卡网络连接错误，被分配了无效的IP。计算机网络当中讲到的以169.254.xx.xx开头的IP都是无效的IP！！！还是计算机网络的基础没有打牢固啊！这次受教了！！！
+
+- 查看磁盘扇区，物理扇区，簇等参数
+
+  ```shell
+  fsutil fsinfo ntfsinfo e:
+  ```
+
+# 浏览器不能复制运行如下代码
+
+```javascript
+javascript:alert(document.onselectstart = document.oncontextmenu= document.onmousedown = document.onkeydown= function(){return true;});
+```
 
