@@ -1,4 +1,4 @@
-lxml==4.6.2
+lxml==4.6.5
 redis==3.5.3
 requests==2.25.1
 Scrapy==2.4.1
