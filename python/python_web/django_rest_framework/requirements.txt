@@ -5,5 +5,5 @@ djangorestframework==3.12.2
 mysqlclient==2.0.1
 psycopg2==2.8.5
 pytz==2020.1
-sqlparse==0.4.1
+sqlparse==0.4.2
 wincertstore==0.2
